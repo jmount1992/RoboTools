@@ -128,9 +128,16 @@ def read_image(filepath: pathlib.Path, image_format: ImageFormat = ImageFormat.O
 
     Args:
         filepath (pathlib.Path): The file path to the image to be read.
-        image_format (ImageFormat, optional): The format to use. Options are ImageFormat.OPENCV or ImageFormat.PIL. Defaults to OpenCV.
+        image_format (ImageFormat, optional): The format to use. Options are ImageFormat.OPENCV or ImageFormat.PIL. Defaults to ImageFormat.OPENCV.
         colour (bool, optional): Set to False to read the image as grayscale. Defaults to True. 
-    """   
+
+    Raises:
+        ValueError: If the passed image_format is not known.
+
+    Returns:
+        Union[np.ndarray, Image.Image]: The image.
+    """
+
 
     # Check if auto-detect if colour or grayscale is on, or user wants specific format
     if image_format == ImageFormat.OPENCV:
