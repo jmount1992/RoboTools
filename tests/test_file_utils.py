@@ -28,6 +28,8 @@
 ### MODULES ###
 ###############
 
+import pytest
+
 import os
 import cv2
 import pathlib
@@ -142,6 +144,19 @@ def test_read_image_pil_auto_grayscale():
     img1 = read_image(filepath, ImageFormat.PIL, colour=None)
     img2 = Image.open(str(filepath))
     assert (ImageChops.difference(img1, img2)).getbbox() == None
+
+# Test read_image
+def test_read_image():
+    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+
+    img = read_image(filepath, image_format=ImageFormat.OPENCV)
+    assert type(img) == np.ndarray
+    
+    img = read_image(filepath, image_format=ImageFormat.PIL)
+    assert type(img) != np.ndarray
+
+    with pytest.raises(ValueError):
+        read_image(filepath, -1)
 
 # Testing read_pointcloud
 def test_read_pointcloud():
