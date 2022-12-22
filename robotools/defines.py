@@ -24,6 +24,10 @@
 # SOFTWARE.                                                                      #
 ##################################################################################
 
+"""The RoboTools Defines module contains enumerations to improve code readability
+and reduce errors.
+"""
+
 ###############
 ### MODULES ###
 ###############

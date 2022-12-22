@@ -24,6 +24,10 @@
 # SOFTWARE.                                                                      #
 ##################################################################################
 
+"""The RoboTools RoboFrames modules defines classes that store individual frame
+metadata and functions for file I/O.
+"""
+
 ###############
 ### MODULES ###
 ###############

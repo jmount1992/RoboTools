@@ -24,7 +24,7 @@
 # SOFTWARE.                                                                      #
 ##################################################################################
 
-"""The RoboTools File Utils module provides utility functions to manipulate file paths,
+"""The RoboTools File Utils module provides utility functions to manipulate file paths
 and read files.
 """
 
