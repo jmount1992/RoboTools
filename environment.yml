@@ -1,0 +1,28 @@
+name: robotools-test
+channels:
+  - conda-forge
+dependencies:
+  - brotlipy=0.7.*
+  - colorama=0.4.*
+  - dash=2.7.*
+  - enum_tools=0.9.*
+  - flask-compress=1.13
+  - importlib_resources=5.10.*
+  - opencv=4.6.*
+  - pillow=9.2.*
+  - pip=22.3.*
+  - pyopenssl=22.1.*
+  - pysocks=1.7.*
+  - pytest-cov=4.0.*
+  - python=3.7.*
+  - pyyaml=6.0
+  - setuptools=59.8.*
+  - sphinx=4.5.*
+  - sphinx-autodoc-typehints=1.19.*
+  - sphinx-rtd-theme=1.1.*
+  - sphinx-toolbox=3.1.*
+  - toml=0.10.*
+  - tqdm=4.64.*
+  - wheel=0.38.*
+  - pip:
+    - open3d==0.16.*
