@@ -1,5 +1,5 @@
 # Modified from https://github.com/epassaro/cache-conda-envs
-name: ci
+name: build
 
 on:
   push:
@@ -67,14 +67,8 @@ jobs:
       - name: Run tests
         shell: bash -l {0}
         run: pytest --cov --cov-report xml
-  
-  codecov:
-    # If all tests pass:
-    # Upload to codecov
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
