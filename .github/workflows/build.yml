@@ -19,7 +19,8 @@ env:
 
 jobs:
   build:
-
+    # Build and cache conda environment
+    # Run unit tests using pytest
     strategy:
       matrix:
         include:
@@ -59,6 +60,21 @@ jobs:
         run: mamba env update -n robotools -f environment.yml
         if: steps.cache.outputs.cache-hit != 'true'
 
+      - name: Install RoboTools
+        shell: bash -l {0}
+        run: pip instal -e .
+
       - name: Run tests
         shell: bash -l {0}
-        run: pip install -e . && pytest ./tests
+        run: pytest --cov --cov-report xml
+  
+  codecov:
+    # If all tests pass:
+    # Upload to codecov
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
