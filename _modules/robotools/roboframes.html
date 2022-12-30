@@ -142,7 +142,7 @@
 <span class="sd">    Each line in the CSV should be its own RoboFrameCSV object where the attributes are the CSV headers,</span>
 <span class="sd">    and the values for each attribute is the value for that header for that particular line.</span>
 
-<span class="sd">    The class is derived from the RoboFrameBase class.</span>
+<span class="sd">    The class is derived from the :class:`.RoboFrameBase` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">=</span> <span class="p">(),</span> <span class="n">values</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">=</span> <span class="p">())</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -179,16 +179,7 @@
     <span class="sd">&quot;&quot;&quot;An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).</span>
 <span class="sd">    This abstract base class provides properties for common file I/O tasks (e.g., getting the file extension or filename)</span>
 
-<span class="sd">    The class is derived from the RoboFrameBase class.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        filepath (Pathlib.path): the absolute file path.</span>
-<span class="sd">        filestem (str): the name of the file without the path or extension.</span>
-<span class="sd">        filename (str): the name of the file, this includes the file extension.</span>
-<span class="sd">        rootpath (Pathlib.Path): the absolute path to the parent folder of the file.</span>
-<span class="sd">        extension (str): the file extension without the period (e.g., &#39;png&#39; not &#39;.png&#39;).</span>
-<span class="sd">        prefix (str): the prefix for the file. Will be set to None if there is no prefix.</span>
-<span class="sd">        user_notes (str): the user notes contained within the file name. Will be set to None if there are no user notes.</span>
+<span class="sd">    The class is derived from the :class:`.RoboFrameBase` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -272,7 +263,7 @@
     <span class="sd">&quot;&quot;&quot;The RoboTools class for images. Each image within a set should be its own RoboFrameImage</span>
 <span class="sd">    object.</span>
 
-<span class="sd">    The class is derived from the RoboFrameFile class.</span>
+<span class="sd">    The class is derived from the :class:`.RoboFrameFile` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -290,10 +281,12 @@
 <span class="sd">        an OpenCV image (numpy array) or as a PIL image. The image can be forced to be read</span>
 <span class="sd">        in as colour, grayscale, or automatically determined.</span>
 
-<span class="sd">        Kwargs:</span>
-<span class="sd">            image_format (ImageFormat): the format for the returned image data. Defaults to ImageFormat.OPENCV</span>
-<span class="sd">            colour (bool): used to force the image colour type. Colour (True), grayscale (False), or if the</span>
-<span class="sd">                colour should be automatically determined (None). Defaults to True.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs: </span>
+<span class="sd">                **image_format** (:class:`.ImageFormat`, optional): the format for the returned image data. Defaults to ImageFormat.OPENCV</span>
+<span class="sd">                </span>
+<span class="sd">                **colour** (*bool*, optional): used to force the image colour type. Set to True to read in colour, False for grayscale, or</span>
+<span class="sd">                None if the colour should be automatically determined. Defaults to True.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Union[np.ndarray, Image.Image]: the returned image.</span>
@@ -308,7 +301,7 @@
     <span class="sd">&quot;&quot;&quot;The RoboTools class for point clouds. Each point cloud within a set should be its own</span>
 <span class="sd">    RoboFramePointCloud object.</span>
 
-<span class="sd">    The class is derived from the RoboFrameFile class.</span>
+<span class="sd">    The class is derived from the :class:`.RoboFrameFile` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -323,6 +316,9 @@
     
 <div class="viewcode-block" id="RoboFramePointCloud.read"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFramePointCloud.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">PointCloud</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Reads a point cloud file and returns the data as an Open3D point cloud object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs: None</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            o3d.geometry.PointCloud: the returned point cloud.</span>
