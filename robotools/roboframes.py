@@ -33,8 +33,12 @@ metadata and functions for file I/O.
 ###############
 
 import pathlib
-from typing import Tuple
+import numpy as np
+from typing import Tuple, Union
 from abc import ABC, abstractmethod
+
+import open3d as o3d
+from PIL import Image
 
 from robotools.defines import ImageFormat
 from robotools.file_utils import extension_from_filepath, read_image, read_pointcloud
@@ -46,15 +50,41 @@ from robotools.file_utils import extension_from_filepath, read_image, read_point
 
 ### ROBO FRAME BASE ###
 class RoboFrameBase():
+    """The base class inherited by every RoboTools frame type.
+
+    Attributes:
+        frame_id (int): the frame ID number.
+    """
 
     def __init__(self, frame_id: int) -> None:
+        """The constructor for the RoboFrameBase class.
+
+        Args:
+            frame_id (int): the frame ID number.
+        """
         self.frame_id = int(frame_id)
 
 
 ### ROBO FRAME CSV ###
 class RoboFrameCSV(RoboFrameBase):
+    """The RoboTools class for storing a line of data contained within a CSV file, or similar file type.
+    Each line in the CSV should be its own RoboFrameCSV object where the attributes are the CSV headers,
+    and the values for each attribute is the value for that header for that particular line.
+
+    The class is derived from the RoboFrameBase class.
+    """
 
     def __init__(self, frame_id: int, fields: Tuple = (), values: Tuple = ()) -> None:
+        """The constructor for the RoboFrameCSV class.
+
+        Args:
+            frame_id (int): the frame ID number.
+            fields (Tuple, optional): the fields (CSV headers) for the object. These fields will become the object attributes. Defaults to ().
+            values (Tuple, optional): the values for the corresponding fields. Defaults to ().
+
+        Raises:
+            ValueError: if the length for fields and values is not equal.
+        """
         super().__init__(frame_id)
 
         if len(fields) != len(values):
@@ -65,19 +95,45 @@ class RoboFrameCSV(RoboFrameBase):
 
 
     def add_data(self, name: str, value) -> None:
+        """Adds a field (object attribute) to the object.
+
+        Args:
+            name (str): the name of the field to be added.
+            value (_type_): the value for said field/attribute.
+        """
         setattr(self, name.lower(), value)
 
 ### ROBO FRAME FILE ###
 class RoboFrameFile(RoboFrameBase, ABC):
+    """An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).
+    This abstract base class provides properties for common file I/O tasks (e.g., getting the file extension or filename)
+
+    The class is derived from the RoboFrameBase class.
+
+    Attributes:
+        filepath (Pathlib.path): the absolute file path.
+        filestem (str): the name of the file without the path or extension.
+        filename (str): the name of the file, this includes the file extension.
+        rootpath (Pathlib.Path): the absolute path to the parent folder of the file.
+        extension (str): the file extension without the period (e.g., 'png' not '.png').
+        prefix (str): the prefix for the file. Will be set to None if there is no prefix.
+        user_notes (str): the user notes contained within the file name. Will be set to None if there are no user notes.
+    """
 
     def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
+        """The class constructor.
+
+        Args:
+            frame_id (int): the frame ID number.
+            filepath (pathlib.Path): the absolute path to the file.
+        """
         super().__init__(frame_id)
         self.filepath = pathlib.Path(filepath)
 
     # Filename properties
     @property
     def filestem(self) -> str:
-        """The filestem for the frame (e.g., '/<path-to-file>/<filestem>.<extension>').
+        """The name of the file without the path or extension (e.g., '/<path-to-file>/<filestem>.<extension>').
 
         Returns:
             str: the filestem for the frame
@@ -86,7 +142,7 @@ class RoboFrameFile(RoboFrameBase, ABC):
 
     @property
     def filename(self) -> str:
-        """The filename for the frame which is the filestem plus the extension (e.g., '/<path-to-file>/<filestem>.<extension>').
+        """the name of the file, this includes the file extension. (e.g., '/<path-to-file>/<filestem>.<extension>').
 
         Returns:
             str: the filename for the frame
@@ -101,7 +157,7 @@ class RoboFrameFile(RoboFrameBase, ABC):
             str: the absolute path to the parent folder for the frame.
         """
         return self.filepath.parent
-    
+
     @property
     def extension(self) -> str:
         """The extension for the frame without the period
@@ -135,17 +191,42 @@ class RoboFrameFile(RoboFrameBase, ABC):
 
     @abstractmethod
     def read(self, **kwargs): # pragma: no cover
+        """To be implemented in each dervied class.
+        """
         pass
 
 
 ### ROBO FRAME IMAGE ###
 class RoboFrameImage(RoboFrameFile):
+    """The RoboTools class for images. Each image within a set should be its own RoboFrameImage
+    object.
+
+    The class is derived from the RoboFrameFile class.
+    """
 
     def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
+        """The class constructor.
+
+        Args:
+            frame_id (int): the frame ID number.
+            filepath (pathlib.Path): the absolute path to the image file.
+        """
         super().__init__(frame_id, filepath)
 
     
-    def read(self, **kwargs):
+    def read(self, **kwargs) -> Union[np.ndarray, Image.Image]:
+        """Reads an image file and returns the data. The image can be either read in as
+        an OpenCV image (numpy array) or as a PIL image. The image can be forced to be read
+        in as colour, grayscale, or automatically determined.
+
+        Kwargs:
+            image_format (ImageFormat): the format for the returned image data. Defaults to ImageFormat.OPENCV
+            colour (bool): used to force the image colour type. Colour (True), grayscale (False), or if the
+                colour should be automatically determined (None). Defaults to True.
+
+        Returns:
+            Union[np.ndarray, Image.Image]: the returned image.
+        """
         image_format = kwargs.get('image_format', ImageFormat.OPENCV)
         colour = kwargs.get('colour', True)
         return read_image(self.filepath, image_format, colour)
@@ -153,12 +234,28 @@ class RoboFrameImage(RoboFrameFile):
 
 ### ROBO FRAME POINT CLOUD ###
 class RoboFramePointCloud(RoboFrameFile):
+    """The RoboTools class for point clouds. Each point cloud within a set should be its own 
+    RoboFramePointCloud object.
+
+    The class is derived from the RoboFrameFile class.
+    """
 
     def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
+        """The class constructor.
+
+        Args:
+            frame_id (int): the frame ID number.
+            filepath (pathlib.Path): the absolute path to the point cloud file.
+        """
         super().__init__(frame_id, filepath)
 
     
-    def read(self, **kwargs):
+    def read(self, **kwargs) -> o3d.geometry.PointCloud:
+        """Reads a point cloud file and returns the data as an Open3D point cloud object.
+
+        Returns:
+            o3d.geometry.PointCloud: the returned point cloud.
+        """
         return read_pointcloud(self.filepath)
 
 ########################
