@@ -71,7 +71,7 @@ class RoboFrameCSV(RoboFrameBase):
     Each line in the CSV should be its own RoboFrameCSV object where the attributes are the CSV headers,
     and the values for each attribute is the value for that header for that particular line.
 
-    The class is derived from the RoboFrameBase class.
+    The class is derived from the :class:`.RoboFrameBase` class.
     """
 
     def __init__(self, frame_id: int, fields: Tuple = (), values: Tuple = ()) -> None:
@@ -108,16 +108,7 @@ class RoboFrameFile(RoboFrameBase, ABC):
     """An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).
     This abstract base class provides properties for common file I/O tasks (e.g., getting the file extension or filename)
 
-    The class is derived from the RoboFrameBase class.
-
-    Attributes:
-        filepath (Pathlib.path): the absolute file path.
-        filestem (str): the name of the file without the path or extension.
-        filename (str): the name of the file, this includes the file extension.
-        rootpath (Pathlib.Path): the absolute path to the parent folder of the file.
-        extension (str): the file extension without the period (e.g., 'png' not '.png').
-        prefix (str): the prefix for the file. Will be set to None if there is no prefix.
-        user_notes (str): the user notes contained within the file name. Will be set to None if there are no user notes.
+    The class is derived from the :class:`.RoboFrameBase` class.
     """
 
     def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
@@ -201,7 +192,7 @@ class RoboFrameImage(RoboFrameFile):
     """The RoboTools class for images. Each image within a set should be its own RoboFrameImage
     object.
 
-    The class is derived from the RoboFrameFile class.
+    The class is derived from the :class:`.RoboFrameFile` class.
     """
 
     def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
@@ -219,10 +210,12 @@ class RoboFrameImage(RoboFrameFile):
         an OpenCV image (numpy array) or as a PIL image. The image can be forced to be read
         in as colour, grayscale, or automatically determined.
 
-        Kwargs:
-            image_format (ImageFormat): the format for the returned image data. Defaults to ImageFormat.OPENCV
-            colour (bool): used to force the image colour type. Colour (True), grayscale (False), or if the
-                colour should be automatically determined (None). Defaults to True.
+        Args:
+            **kwargs: 
+                **image_format** (:class:`.ImageFormat`, optional): the format for the returned image data. Defaults to ImageFormat.OPENCV
+                
+                **colour** (*bool*, optional): used to force the image colour type. Set to True to read in colour, False for grayscale, or
+                None if the colour should be automatically determined. Defaults to True.
 
         Returns:
             Union[np.ndarray, Image.Image]: the returned image.
@@ -237,7 +230,7 @@ class RoboFramePointCloud(RoboFrameFile):
     """The RoboTools class for point clouds. Each point cloud within a set should be its own
     RoboFramePointCloud object.
 
-    The class is derived from the RoboFrameFile class.
+    The class is derived from the :class:`.RoboFrameFile` class.
     """
 
     def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
@@ -252,6 +245,9 @@ class RoboFramePointCloud(RoboFrameFile):
     
     def read(self, **kwargs) -> o3d.geometry.PointCloud:
         """Reads a point cloud file and returns the data as an Open3D point cloud object.
+
+        Args:
+            **kwargs: None
 
         Returns:
             o3d.geometry.PointCloud: the returned point cloud.
