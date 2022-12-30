@@ -177,7 +177,7 @@ class RoboFrameFile(RoboFrameBase, ABC):
         if len((self.filepath.name).split('_',1)) == 2:
             return (self.filepath.name).split('_',1)[0]
         return None
-    
+
     @property
     def user_notes(self) -> str:
         """The user notes contained within the filename.
