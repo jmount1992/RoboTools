@@ -29,9 +29,19 @@
 ###############
 
 import pytest
+
+import os
 import pathlib
+import numpy as np
+
+import cv2
+import open3d as o3d
+from PIL import Image, ImageChops
 
 from robotools.roboframes import *
+
+SCRIPT_DIR = pathlib.Path(os.path.dirname(os.path.abspath(__file__)))
+
 
 ###################################
 ### ROBOFRAME BASE CLASS TESTS ###
@@ -72,6 +82,10 @@ def test_robo_frame_csv_class_constructor_with_inequal_lengths():
 ###################################
 
 # Using RoboFrameImage instead due to abstract base class
+# Test error is raised
+def test_constructor_error():
+    with pytest.raises(TypeError):
+        RoboFrameFile(1, "/path/to/file/001.png")
 
 ### TESTING CONSTRUCTORS ###
 # Testing that frame id and filepath arguments to constructor are correctly passed
@@ -177,3 +191,56 @@ def test_file_properties_prefix_usernotes_id_without_extension_complex():
     assert frame.extension == None
     assert frame.prefix == "frame"
     assert frame.user_notes == "user_notes"
+
+
+###################################
+### ROBOFRAME IMAGE CLASS TESTS ###
+###################################
+
+def test_roboframe_image_read():
+    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+    frame = RoboFrameImage(1, filepath)
+
+    for image_format in [ImageFormat.OPENCV, ImageFormat.PIL]:
+            img1 = frame.read(image_format=image_format)
+            if image_format == ImageFormat.OPENCV:
+                img2 = cv2.imread(str(filepath), cv2.IMREAD_COLOR)
+                assert (img1.shape == img2.shape and not(np.bitwise_xor(img1,img2).any())) == True
+            else:
+                img2 = Image.open(str(filepath))
+                assert (ImageChops.difference(img1, img2)).getbbox() == None
+
+
+def test_roboframe_image_read_grayscale():
+    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+    frame = RoboFrameImage(1, filepath)
+
+    for image_format in [ImageFormat.OPENCV, ImageFormat.PIL]:
+            img1 = frame.read(image_format=image_format, colour=False)
+            if image_format == ImageFormat.OPENCV:
+                img2 = cv2.imread(str(filepath), cv2.IMREAD_GRAYSCALE)
+                assert (img1.shape == img2.shape and not(np.bitwise_xor(img1,img2).any())) == True
+            else:
+                img2 = Image.open(str(filepath)).convert("L")
+                assert (ImageChops.difference(img1, img2)).getbbox() == None
+
+
+
+###################################
+### ROBOFRAME IMAGE CLASS TESTS ###
+###################################
+
+def test_roboframe_image_read():
+    filepath = SCRIPT_DIR / "data/fragment.ply"
+
+    frame = RoboFramePointCloud(1, filepath)
+    pcd1 = frame.read()
+
+    pcd2 = o3d.io.read_point_cloud(str(filepath))
+
+    pcd1_pts = np.asarray(pcd1.points)
+    pcd1_col = np.asarray(pcd1.colors)
+    pcd2_pts = np.asarray(pcd2.points)
+    pcd2_col = np.asarray(pcd2.colors)
+    assert np.sum(pcd1_pts - pcd2_pts) == 0
+    assert np.sum(pcd1_col - pcd2_col) == 0

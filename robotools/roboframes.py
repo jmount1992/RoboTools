@@ -92,7 +92,7 @@ class RoboFrameFile(RoboFrameBase, ABC):
             str: the filename for the frame
         """
         return self.filepath.name
-    
+
     @property
     def rootpath(self) -> pathlib.Path:
         """The absolute path to the parent folder for the frame.
@@ -134,7 +134,7 @@ class RoboFrameFile(RoboFrameBase, ABC):
         return ((self.filepath.name).split('_',1)[1]).rsplit('_',1)[0]
 
     @abstractmethod
-    def read(self, **kwargs):
+    def read(self, **kwargs): # pragma: no cover
         pass
 
 

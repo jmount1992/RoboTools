@@ -31,11 +31,12 @@
 import pytest
 
 import os
-import cv2
 import pathlib
 import numpy as np
-from PIL import Image, ImageChops
+
+import cv2
 import open3d as o3d
+from PIL import Image, ImageChops
 
 from robotools.defines import FrameType
 from robotools.file_utils import *

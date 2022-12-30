@@ -204,7 +204,7 @@ def read_image_pil(filepath: pathlib.Path, colour: bool = True) -> Image.Image:
     Returns:
         Image.Image: The read image.
     """
-    
+
     # PIL appears to automatically choose the best "mode" (grayscale, RGB, etc.)
     img = Image.open(str(filepath))
 
