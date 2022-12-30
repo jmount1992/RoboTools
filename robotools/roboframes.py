@@ -33,7 +33,7 @@ metadata and functions for file I/O.
 ###############
 
 import pathlib
-from typing import List
+from typing import Tuple
 from abc import ABC, abstractmethod
 
 from robotools.defines import ImageFormat
@@ -54,7 +54,7 @@ class RoboFrameBase():
 ### ROBO FRAME CSV ###
 class RoboFrameCSV(RoboFrameBase):
 
-    def __init__(self, frame_id: int, fields: List = list(), values: List = list()) -> None:
+    def __init__(self, frame_id: int, fields: Tuple = (), values: Tuple = ()) -> None:
         super().__init__(frame_id)
 
         if len(fields) != len(values):
@@ -134,7 +134,7 @@ class RoboFrameFile(RoboFrameBase, ABC):
         return ((self.filepath.name).split('_',1)[1]).rsplit('_',1)[0]
 
     @abstractmethod
-    def read(self):
+    def read(self, **kwargs):
         pass
 
 
@@ -145,7 +145,9 @@ class RoboFrameImage(RoboFrameFile):
         super().__init__(frame_id, filepath)
 
     
-    def read(self, image_format: ImageFormat = ImageFormat.OPENCV, colour: bool = True):
+    def read(self, **kwargs):
+        image_format = kwargs.get('image_format', ImageFormat.OPENCV)
+        colour = kwargs.get('colour', True)
         return read_image(self.filepath, image_format, colour)
 
 
@@ -156,7 +158,7 @@ class RoboFramePointCloud(RoboFrameFile):
         super().__init__(frame_id, filepath)
 
     
-    def read(self):
+    def read(self, **kwargs):
         return read_pointcloud(self.filepath)
 
 ########################
