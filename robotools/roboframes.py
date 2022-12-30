@@ -34,6 +34,7 @@ metadata and functions for file I/O.
 
 import pathlib
 from typing import List
+from abc import ABC, abstractmethod
 
 from robotools.defines import ImageFormat
 from robotools.file_utils import extension_from_filepath, read_image, read_pointcloud
@@ -53,7 +54,7 @@ class RoboFrameBase():
 ### ROBO FRAME CSV ###
 class RoboFrameCSV(RoboFrameBase):
 
-    def __init__(self, frame_id: int, fields: List, values: List) -> None:
+    def __init__(self, frame_id: int, fields: List = list(), values: List = list()) -> None:
         super().__init__(frame_id)
 
         if len(fields) != len(values):
@@ -67,13 +68,13 @@ class RoboFrameCSV(RoboFrameBase):
         setattr(self, name.lower(), value)
 
 ### ROBO FRAME FILE ###
-class RoboFrameFile(RoboFrameBase):
+class RoboFrameFile(RoboFrameBase, ABC):
 
     def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
         super().__init__(frame_id)
         self.filepath = pathlib.Path(filepath)
 
-     # Filename properties
+    # Filename properties
     @property
     def filestem(self) -> str:
         """The filestem for the frame (e.g., '/<path-to-file>/<filestem>.<extension>').
@@ -82,7 +83,7 @@ class RoboFrameFile(RoboFrameBase):
             str: the filestem for the frame
         """
         return self.filepath.stem
-    
+
     @property
     def filename(self) -> str:
         """The filename for the frame which is the filestem plus the extension (e.g., '/<path-to-file>/<filestem>.<extension>').
@@ -132,6 +133,10 @@ class RoboFrameFile(RoboFrameBase):
             return None
         return ((self.filepath.name).split('_',1)[1]).rsplit('_',1)[0]
 
+    @abstractmethod
+    def read(self):
+        pass
+
 
 ### ROBO FRAME IMAGE ###
 class RoboFrameImage(RoboFrameFile):
@@ -140,7 +145,7 @@ class RoboFrameImage(RoboFrameFile):
         super().__init__(frame_id, filepath)
 
     
-    def read(self, image_format: ImageFormat=ImageFormat.OPENCV, colour: bool=True):
+    def read(self, image_format: ImageFormat = ImageFormat.OPENCV, colour: bool = True):
         return read_image(self.filepath, image_format, colour)
 
 

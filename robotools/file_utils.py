@@ -123,7 +123,7 @@ def frametype_from_filepath(filepath: pathlib.Path) -> FrameType:
     return frametype_from_extension(extension)
 
 
-def read_image(filepath: pathlib.Path, image_format: ImageFormat = ImageFormat.OPENCV, colour: bool=True) -> Union[np.ndarray, Image.Image]:
+def read_image(filepath: pathlib.Path, image_format: ImageFormat = ImageFormat.OPENCV, colour: bool = True) -> Union[np.ndarray, Image.Image]:
     """Reads an image either as an OpenCV image (Numpy array, default behaviour) or as a PIL Image.
 
     Args:
@@ -147,7 +147,7 @@ def read_image(filepath: pathlib.Path, image_format: ImageFormat = ImageFormat.O
 
     # Raise value error
     raise ValueError("Unknown image format %d."%(image_format))
-    
+
 
 def read_pointcloud(filepath: pathlib.Path) -> o3d.geometry.PointCloud:
     """Reads a point cloud and returns an Open3d Geometry PointCloud object.
@@ -179,7 +179,7 @@ def read_image_opencv(filepath: pathlib.Path, colour: bool = True) -> np.ndarray
     """
 
     # Check if auto-detect if colour or grayscale is on, or user wants specific format
-    if colour != None:
+    if colour is not None:
         if colour:
             img = cv2.imread(str(filepath), cv2.IMREAD_COLOR)
         else:
@@ -209,7 +209,7 @@ def read_image_pil(filepath: pathlib.Path, colour: bool = True) -> Image.Image:
     img = Image.open(str(filepath))
 
     # Force to grayscale
-    if colour == False and img.mode != "L":
+    if colour is False and img.mode != "L":
         img = img.convert('L')
 
     # Return

@@ -71,10 +71,12 @@ def test_robo_frame_csv_class_constructor_with_inequal_lengths():
 ### ROBOFRAME FILE CLASS TESTS ###
 ###################################
 
+# Using RoboFrameImage instead due to abstract base class
+
 ### TESTING CONSTRUCTORS ###
 # Testing that frame id and filepath arguments to constructor are correctly passed
 def test_constructor_simple():
-    frame = RoboFrameFile(0, "/path/to/file/001.png")
+    frame = RoboFrameImage(0, "/path/to/file/001.png")
 
     assert frame.frame_id == 0
     assert frame.filepath == pathlib.Path("/path/to/file/001.png")
@@ -82,7 +84,7 @@ def test_constructor_simple():
 # TESTING FILENAME PROPERTIES
 # Testing filepath with the form <id-number>.<extension> returns correct properties
 def test_file_properties_id_with_extension():
-    frame = RoboFrameFile(1, "/path/to/file/001.png")
+    frame = RoboFrameImage(1, "/path/to/file/001.png")
 
     assert frame.filestem == "001"
     assert frame.filename == "001.png"
@@ -94,7 +96,7 @@ def test_file_properties_id_with_extension():
 
 # Testing filepath with the form <id-number> returns correct properties
 def test_file_properties_id_without_extension():
-    frame = RoboFrameFile(1, "/path/to/file/001")
+    frame = RoboFrameImage(1, "/path/to/file/001")
 
     assert frame.filestem == "001"
     assert frame.filename == "001"
@@ -106,7 +108,7 @@ def test_file_properties_id_without_extension():
 
 # Testing filepath with the form <prefix>_<id-number>.<extension> returns correct properties
 def test_file_properties_prefix_id_with_extension():
-    frame = RoboFrameFile(1, "/path/to/file/frame_001.png")
+    frame = RoboFrameImage(1, "/path/to/file/frame_001.png")
 
     assert frame.filestem == "frame_001"
     assert frame.filename == "frame_001.png"
@@ -118,7 +120,7 @@ def test_file_properties_prefix_id_with_extension():
 
 # Testing filepath with the form <prefix>_<id-number> returns correct properties
 def test_file_properties_prefix_id_without_extension():
-    frame = RoboFrameFile(1, "/path/to/file/frame_001")
+    frame = RoboFrameImage(1, "/path/to/file/frame_001")
 
     assert frame.filestem == "frame_001"
     assert frame.filename == "frame_001"
@@ -130,7 +132,7 @@ def test_file_properties_prefix_id_without_extension():
 
 # Testing filepath with the form <prefix>_<user-notes>_<id-number>.<extension> returns correct properties
 def test_file_properties_prefix_usernotes_id_with_extension_simple():
-    frame = RoboFrameFile(1, "/path/to/file/frame_user-notes_001.png")
+    frame = RoboFrameImage(1, "/path/to/file/frame_user-notes_001.png")
 
     assert frame.filestem == "frame_user-notes_001"
     assert frame.filename == "frame_user-notes_001.png"
@@ -142,7 +144,7 @@ def test_file_properties_prefix_usernotes_id_with_extension_simple():
 
 # Testing filepath with the form <prefix>_<user-notes>_<id-number> returns correct properties
 def test_file_properties_prefix_usernotes_id_without_extension_simple():
-    frame = RoboFrameFile(1, "/path/to/file/frame_user-notes_001")
+    frame = RoboFrameImage(1, "/path/to/file/frame_user-notes_001")
 
     assert frame.filestem == "frame_user-notes_001"
     assert frame.filename == "frame_user-notes_001"
@@ -155,7 +157,7 @@ def test_file_properties_prefix_usernotes_id_without_extension_simple():
 # Testing filepath with the form <prefix>_<user-notes>_<id-number>.<extension> returns correct properties
 # when user notes includes underscores
 def test_file_properties_prefix_usernotes_id_with_extension_complex():
-    frame = RoboFrameFile(1, "/path/to/file/frame_user_notes_001.png")
+    frame = RoboFrameImage(1, "/path/to/file/frame_user_notes_001.png")
 
     assert frame.filestem == "frame_user_notes_001"
     assert frame.filename == "frame_user_notes_001.png"
@@ -167,7 +169,7 @@ def test_file_properties_prefix_usernotes_id_with_extension_complex():
 
 # Testing filepath with the form <prefix>_<user-notes>_<id-number> returns correct properties
 def test_file_properties_prefix_usernotes_id_without_extension_complex():
-    frame = RoboFrameFile(1, "/path/to/file/frame_user_notes_001")
+    frame = RoboFrameImage(1, "/path/to/file/frame_user_notes_001")
 
     assert frame.filestem == "frame_user_notes_001"
     assert frame.filename == "frame_user_notes_001"
