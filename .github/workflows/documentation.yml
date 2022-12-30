@@ -1,19 +1,15 @@
 # Modified from https://github.com/epassaro/cache-conda-envs
-name: build
+name: documentation
 
 on:
   workflow_dispatch:
   push:
     branches:
       - 'main'
-      - 'develop'
 
   pull_request:
     branches:
-      - '*'
-
-  # schedule:
-  #   - cron: '0 0 * * *'
+      - 'main'
 
 env:
   CACHE_NUMBER: 0  # increase to reset cache manually
@@ -22,21 +18,8 @@ jobs:
   build:
     # Build and cache conda environment
     # Run unit tests using pytest
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            label: linux-64
-            prefix: /usr/share/miniconda3/envs/robotools
-          # - os: macos-latest
-          #   label: osx-64
-          #   prefix: /Users/runner/miniconda3/envs/robotools
-          # - os: windows-latest
-          #   label: win-64
-          #   prefix: C:\Miniconda3\envs\robotools
 
-    name: ${{ matrix.label }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -65,12 +48,32 @@ jobs:
         shell: bash -l {0}
         run: pip install -e .
 
-      - name: Run tests
+      - name: Build Sphinx Documentation
         shell: bash -l {0}
-        run: pytest --cov --cov-report xml
+        run: cd docs && make html
 
-      - name: Upload Coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
+      # Create an artifact of the html output.
+      - uses: actions/upload-artifact@v1
         with:
-          coverage-reports: ./coverage.xml
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          name: DocumentationHTML
+          path: docs/build/html/
+
+      # Publish built docs to gh-pages branch
+      - name: Commit documentation changes
+        run: |
+          git clone https://github.com/qcr/rosdata.git --branch gh-pages --single-branch gh-pages
+          cp -r docs/build/html/* gh-pages/
+          cd gh-pages
+          touch .nojekyll
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Update documentation" -a || true
+         # The above command will fail if no changes were present, so we ignore that.
+      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: gh-pages
+          directory: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}

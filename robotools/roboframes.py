@@ -166,7 +166,7 @@ class RoboFrameFile(RoboFrameBase, ABC):
             str: The extension for the frame without the period. Will return None if the file has no extension.
         """
         return extension_from_filepath(self.filepath)
-    
+
     @property
     def prefix(self) -> str:
         """The prefix for the frame.
@@ -234,7 +234,7 @@ class RoboFrameImage(RoboFrameFile):
 
 ### ROBO FRAME POINT CLOUD ###
 class RoboFramePointCloud(RoboFrameFile):
-    """The RoboTools class for point clouds. Each point cloud within a set should be its own 
+    """The RoboTools class for point clouds. Each point cloud within a set should be its own
     RoboFramePointCloud object.
 
     The class is derived from the RoboFrameFile class.
