@@ -106,7 +106,7 @@ def frametype_from_extension(extension: str) -> FrameType:
         return FrameType.POINTCLOUD
     elif extension in supported_csv_types():
         return FrameType.CSVDATA
-    
+
     return FrameType.UNKNOWN
 
 
@@ -129,7 +129,7 @@ def read_image(filepath: pathlib.Path, image_format: ImageFormat = ImageFormat.O
     Args:
         filepath (pathlib.Path): The file path to the image to be read.
         image_format (ImageFormat, optional): The format to use. Options are ImageFormat.OPENCV or ImageFormat.PIL. Defaults to ImageFormat.OPENCV.
-        colour (bool, optional): Set to False to read the image as grayscale. Defaults to True. 
+        colour (bool, optional): Set to False to read the image as grayscale. Defaults to True.
 
     Raises:
         ValueError: If the passed image_format is not known.
@@ -195,7 +195,7 @@ def read_image_opencv(filepath: pathlib.Path, colour: bool = True) -> np.ndarray
 
 
 def read_image_pil(filepath: pathlib.Path, colour: bool = True) -> Image.Image:
-    """Reads an image into a PIL.Image.Image object. 
+    """Reads an image into a PIL.Image.Image object.
 
     Args:
         filepath (pathlib.Path): The file path to the image to be read.

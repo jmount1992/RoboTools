@@ -53,7 +53,7 @@ class RoboFrameBase():
 ### ROBO FRAME CSV ###
 class RoboFrameCSV(RoboFrameBase):
 
-    def __init__(self, frame_id: int, fields: List = [], values: List = []) -> None:
+    def __init__(self, frame_id: int, fields: List, values: List) -> None:
         super().__init__(frame_id)
 
         if len(fields) != len(values):
@@ -62,7 +62,7 @@ class RoboFrameCSV(RoboFrameBase):
         for field, val in zip(fields, values):
             self.add_data(field.lower(), val)
 
-    
+
     def add_data(self, name: str, value) -> None:
         setattr(self, name.lower(), value)
 
@@ -144,8 +144,8 @@ class RoboFrameImage(RoboFrameFile):
         return read_image(self.filepath, image_format, colour)
 
 
-### ROBO FRAME IMAGE ###
-class RoboFrameImage(RoboFrameFile):
+### ROBO FRAME POINT CLOUD ###
+class RoboFramePointCloud(RoboFrameFile):
 
     def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
         super().__init__(frame_id, filepath)
