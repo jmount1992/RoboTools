@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoboFrames Module &mdash; RoboTools 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="File IO Module" href="file_utils.html" />
+    <link rel="prev" title="Welcome to the RoboTools Documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> RoboTools
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RoboFrames Module</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="file_utils.html">File IO Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="defines.html">Defines Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RoboTools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">RoboFrames Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/roboframes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="roboframes-module">
+<h1>RoboFrames Module<a class="headerlink" href="#roboframes-module" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-robotools.roboframes"></span><p>The RoboTools RoboFrames modules defines classes that store individual frame
+metadata and functions for file I/O.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robotools.roboframes.</span></span><span class="sig-name descname"><span class="pre">RoboFrameBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameBase" title="Permalink to this definition"></a></dt>
+<dd><p>The base class inherited by every RoboTools frame type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameBase.frame_id">
+<span class="sig-name descname"><span class="pre">frame_id</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrameBase.frame_id" title="Permalink to this definition"></a></dt>
+<dd><p>the frame ID number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameCSV">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robotools.roboframes.</span></span><span class="sig-name descname"><span class="pre">RoboFrameCSV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameCSV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameCSV" title="Permalink to this definition"></a></dt>
+<dd><p>The RoboTools class for storing a line of data contained within a CSV file, or similar file type.
+Each line in the CSV should be its own RoboFrameCSV object where the attributes are the CSV headers,
+and the values for each attribute is the value for that header for that particular line.</p>
+<p>The class is derived from the RoboFrameBase class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameCSV.add_data">
+<span class="sig-name descname"><span class="pre">add_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameCSV.add_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameCSV.add_data" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a field (object attribute) to the object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – the name of the field to be added.</p></li>
+<li><p><strong>value</strong> (<em>_type_</em>) – the value for said field/attribute.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robotools.roboframes.</span></span><span class="sig-name descname"><span class="pre">RoboFrameFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameFile" title="Permalink to this definition"></a></dt>
+<dd><p>An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).
+This abstract base class provides properties for common file I/O tasks (e.g., getting the file extension or filename)</p>
+<p>The class is derived from the RoboFrameBase class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile.filepath">
+<span class="sig-name descname"><span class="pre">filepath</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrameFile.filepath" title="Permalink to this definition"></a></dt>
+<dd><p>the absolute file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Pathlib.path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile.filestem">
+<span class="sig-name descname"><span class="pre">filestem</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrameFile.filestem" title="Permalink to this definition"></a></dt>
+<dd><p>the name of the file without the path or extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrameFile.filename" title="Permalink to this definition"></a></dt>
+<dd><p>the name of the file, this includes the file extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile.rootpath">
+<span class="sig-name descname"><span class="pre">rootpath</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrameFile.rootpath" title="Permalink to this definition"></a></dt>
+<dd><p>the absolute path to the parent folder of the file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Pathlib.Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile.extension">
+<span class="sig-name descname"><span class="pre">extension</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrameFile.extension" title="Permalink to this definition"></a></dt>
+<dd><p>the file extension without the period (e.g., ‘png’ not ‘.png’).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile.prefix">
+<span class="sig-name descname"><span class="pre">prefix</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrameFile.prefix" title="Permalink to this definition"></a></dt>
+<dd><p>the prefix for the file. Will be set to None if there is no prefix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile.user_notes">
+<span class="sig-name descname"><span class="pre">user_notes</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrameFile.user_notes" title="Permalink to this definition"></a></dt>
+<dd><p>the user notes contained within the file name. Will be set to None if there are no user notes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extension</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
+<dd><p>The extension for the frame without the period</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The extension for the frame without the period. Will return None if the file has no extension.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id1">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id1" title="Permalink to this definition"></a></dt>
+<dd><p>the name of the file, this includes the file extension. (e.g., ‘/&lt;path-to-file&gt;/&lt;filestem&gt;.&lt;extension&gt;’).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the filename for the frame</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id2">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filestem</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id2" title="Permalink to this definition"></a></dt>
+<dd><p>The name of the file without the path or extension (e.g., ‘/&lt;path-to-file&gt;/&lt;filestem&gt;.&lt;extension&gt;’).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the filestem for the frame</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id3">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id3" title="Permalink to this definition"></a></dt>
+<dd><p>The prefix for the frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The prefix for the frame. Will return None if the file has no prefix.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile.read">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameFile.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameFile.read" title="Permalink to this definition"></a></dt>
+<dd><p>To be implemented in each dervied class.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id4">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rootpath</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">pathlib.Path</span></em><a class="headerlink" href="#id4" title="Permalink to this definition"></a></dt>
+<dd><p>The absolute path to the parent folder for the frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the absolute path to the parent folder for the frame.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id5">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user_notes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id5" title="Permalink to this definition"></a></dt>
+<dd><p>The user notes contained within the filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The user notes contained within the filename. Will return None if no user notes exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameImage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robotools.roboframes.</span></span><span class="sig-name descname"><span class="pre">RoboFrameImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameImage" title="Permalink to this definition"></a></dt>
+<dd><p>The RoboTools class for images. Each image within a set should be its own RoboFrameImage
+object.</p>
+<p>The class is derived from the RoboFrameFile class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameImage.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PIL.Image.Image</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameImage.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameImage.read" title="Permalink to this definition"></a></dt>
+<dd><p>Reads an image file and returns the data. The image can be either read in as
+an OpenCV image (numpy array) or as a PIL image. The image can be forced to be read
+in as colour, grayscale, or automatically determined.</p>
+<dl>
+<dt>Kwargs:</dt><dd><p>image_format (ImageFormat): the format for the returned image data. Defaults to ImageFormat.OPENCV
+colour (bool): used to force the image colour type. Colour (True), grayscale (False), or if the</p>
+<blockquote>
+<div><p>colour should be automatically determined (None). Defaults to True.</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the returned image.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Union[np.ndarray, Image.Image]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFramePointCloud">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robotools.roboframes.</span></span><span class="sig-name descname"><span class="pre">RoboFramePointCloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFramePointCloud"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFramePointCloud" title="Permalink to this definition"></a></dt>
+<dd><p>The RoboTools class for point clouds. Each point cloud within a set should be its own
+RoboFramePointCloud object.</p>
+<p>The class is derived from the RoboFrameFile class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFramePointCloud.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">open3d.cpu.pybind.geometry.PointCloud</span></span></span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFramePointCloud.read"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFramePointCloud.read" title="Permalink to this definition"></a></dt>
+<dd><p>Reads a point cloud file and returns the data as an Open3D point cloud object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the returned point cloud.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>o3d.geometry.PointCloud</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to the RoboTools Documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="file_utils.html" class="btn btn-neutral float-right" title="File IO Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, James Mount.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

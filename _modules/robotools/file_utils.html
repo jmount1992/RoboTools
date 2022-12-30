@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>robotools.file_utils &mdash; RoboTools 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> RoboTools
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../roboframes.html">RoboFrames Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../file_utils.html">File IO Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../defines.html">Defines Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">RoboTools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">robotools.file_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for robotools.file_utils</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="c1">##################################################################################</span>
+<span class="c1"># MIT License                                                                    #</span>
+<span class="c1">#                                                                                #</span>
+<span class="c1"># Copyright (c) 2022 James Mount                                                 #</span>
+<span class="c1">#                                                                                #</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy   #</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal  #</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights   #</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell      #</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is          #</span>
+<span class="c1"># furnished to do so, subject to the following conditions:                       #</span>
+<span class="c1">#                                                                                #</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in all #</span>
+<span class="c1"># copies or substantial portions of the Software.                                #</span>
+<span class="c1">#                                                                                #</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR     #</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,       #</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE    #</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER         #</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,  #</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  #</span>
+<span class="c1"># SOFTWARE.                                                                      #</span>
+<span class="c1">##################################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;The RoboTools File Utils module provides utility functions to manipulate file paths</span>
+<span class="sd">and read files.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">###############</span>
+<span class="c1">### MODULES ###</span>
+<span class="c1">###############</span>
+
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+
+<span class="kn">from</span> <span class="nn">robotools.defines</span> <span class="kn">import</span> <span class="n">FrameType</span><span class="p">,</span> <span class="n">ImageFormat</span>
+
+
+<span class="c1">########################</span>
+<span class="c1">### PUBLIC FUNCTIONS ###</span>
+<span class="c1">########################</span>
+
+<div class="viewcode-block" id="supported_image_types"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.supported_image_types">[docs]</a><span class="k">def</span> <span class="nf">supported_image_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the list of supported image extensions. The period is not included.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List: The list of supported image types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;bmp&#39;</span><span class="p">,</span> <span class="s1">&#39;pbm&#39;</span><span class="p">,</span> <span class="s1">&#39;pgm&#39;</span><span class="p">,</span> <span class="s1">&#39;ppm&#39;</span><span class="p">,</span> <span class="s1">&#39;jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;jpe&#39;</span><span class="p">,</span> <span class="s1">&#39;jp2&#39;</span><span class="p">,</span> <span class="s1">&#39;tiff&#39;</span><span class="p">,</span> <span class="s1">&#39;tif&#39;</span><span class="p">,</span> <span class="s1">&#39;png&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="supported_pointcloud_types"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.supported_pointcloud_types">[docs]</a><span class="k">def</span> <span class="nf">supported_pointcloud_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the list of supported point cloud extensions. The period is not included.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List: The list of supported point cloud types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;ply&#39;</span><span class="p">,</span> <span class="s1">&#39;pcd&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="supported_csv_types"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.supported_csv_types">[docs]</a><span class="k">def</span> <span class="nf">supported_csv_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the list of supported CSV file extensions. The period is not included.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List: The list of supported CSV file types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;csv&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="extension_from_filepath"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.extension_from_filepath">[docs]</a><span class="k">def</span> <span class="nf">extension_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Gets the extension for a file given its filepath. The filepath can be relative or absolute.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (pathlib.Path): The relative or absolute path to the file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The extension for the file without the period.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">((</span><span class="n">filepath</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="frametype_from_extension"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.frametype_from_extension">[docs]</a><span class="k">def</span> <span class="nf">frametype_from_extension</span><span class="p">(</span><span class="n">extension</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameType</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns the FrameType given the file extension.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        extension (str): The file extension without the period.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        FrameType: The FrameType for the given extension.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">supported_image_types</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">FrameType</span><span class="o">.</span><span class="n">IMAGE</span>
+    <span class="k">elif</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">supported_pointcloud_types</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">FrameType</span><span class="o">.</span><span class="n">POINTCLOUD</span>
+    <span class="k">elif</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">supported_csv_types</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">FrameType</span><span class="o">.</span><span class="n">CSVDATA</span>
+
+    <span class="k">return</span> <span class="n">FrameType</span><span class="o">.</span><span class="n">UNKNOWN</span></div>
+
+
+<div class="viewcode-block" id="frametype_from_filepath"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.frametype_from_filepath">[docs]</a><span class="k">def</span> <span class="nf">frametype_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameType</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns the FrameType given the filepath.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (pathlib.Path): The relative or absolute path to the file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        FrameType: The FrameType for the given filepath.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">extension</span> <span class="o">=</span> <span class="n">extension_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">frametype_from_extension</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_image"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.read_image">[docs]</a><span class="k">def</span> <span class="nf">read_image</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">image_format</span><span class="p">:</span> <span class="n">ImageFormat</span> <span class="o">=</span> <span class="n">ImageFormat</span><span class="o">.</span><span class="n">OPENCV</span><span class="p">,</span> <span class="n">colour</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Reads an image either as an OpenCV image (Numpy array, default behaviour) or as a PIL Image.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (pathlib.Path): The file path to the image to be read.</span>
+<span class="sd">        image_format (ImageFormat, optional): The format to use. Options are ImageFormat.OPENCV or ImageFormat.PIL. Defaults to ImageFormat.OPENCV.</span>
+<span class="sd">        colour (bool, optional): Set to False to read the image as grayscale. Defaults to True.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the passed image_format is not known.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Union[np.ndarray, Image.Image]: The image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="c1"># Check if auto-detect if colour or grayscale is on, or user wants specific format</span>
+    <span class="k">if</span> <span class="n">image_format</span> <span class="o">==</span> <span class="n">ImageFormat</span><span class="o">.</span><span class="n">OPENCV</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">read_image_opencv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">colour</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">image_format</span> <span class="o">==</span> <span class="n">ImageFormat</span><span class="o">.</span><span class="n">PIL</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">read_image_pil</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">colour</span><span class="p">)</span>
+
+    <span class="c1"># Raise value error</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown image format </span><span class="si">%d</span><span class="s2">.&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">image_format</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="read_pointcloud"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.read_pointcloud">[docs]</a><span class="k">def</span> <span class="nf">read_pointcloud</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">PointCloud</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Reads a point cloud and returns an Open3d Geometry PointCloud object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (pathlib.Path): The file path to the point cloud to be read.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        o3d.geometry.PointCloud: The read point cloud.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pcd</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_point_cloud</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pcd</span></div>
+
+<span class="c1">#########################</span>
+<span class="c1">### PRIVATE FUNCTIONS ###</span>
+<span class="c1">#########################</span>
+
+
+<div class="viewcode-block" id="read_image_opencv"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.read_image_opencv">[docs]</a><span class="k">def</span> <span class="nf">read_image_opencv</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">colour</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Reads an image as an OpenCV image (Numpy array).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (pathlib.Path): The file path to the image to be read.</span>
+<span class="sd">        colour (bool, optional): Set to False to read the image as grayscale. Defaults to True.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: The read image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check if auto-detect if colour or grayscale is on, or user wants specific format</span>
+    <span class="k">if</span> <span class="n">colour</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">colour</span><span class="p">:</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">)</span>
+        <span class="n">b</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">r</span> <span class="o">=</span> <span class="n">img</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">img</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">b</span><span class="o">==</span><span class="n">g</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">b</span><span class="o">==</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+
+    <span class="c1"># Return</span>
+    <span class="k">return</span> <span class="n">img</span></div>
+
+
+<div class="viewcode-block" id="read_image_pil"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.read_image_pil">[docs]</a><span class="k">def</span> <span class="nf">read_image_pil</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">colour</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Reads an image into a PIL.Image.Image object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (pathlib.Path): The file path to the image to be read.</span>
+<span class="sd">        colour (bool): Set to False to read the image as grayscale. Defaults to True.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Image.Image: The read image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># PIL appears to automatically choose the best &quot;mode&quot; (grayscale, RGB, etc.)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">))</span>
+
+    <span class="c1"># Force to grayscale</span>
+    <span class="k">if</span> <span class="n">colour</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">img</span><span class="o">.</span><span class="n">mode</span> <span class="o">!=</span> <span class="s2">&quot;L&quot;</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Return</span>
+    <span class="k">return</span> <span class="n">img</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, James Mount.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

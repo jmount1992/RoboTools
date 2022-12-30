@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>robotools.roboframes &mdash; RoboTools 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> RoboTools
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../roboframes.html">RoboFrames Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../file_utils.html">File IO Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../defines.html">Defines Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">RoboTools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">robotools.roboframes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for robotools.roboframes</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="c1">##################################################################################</span>
+<span class="c1"># MIT License                                                                    #</span>
+<span class="c1">#                                                                                #</span>
+<span class="c1"># Copyright (c) 2022 James Mount                                                 #</span>
+<span class="c1">#                                                                                #</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy   #</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal  #</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights   #</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell      #</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is          #</span>
+<span class="c1"># furnished to do so, subject to the following conditions:                       #</span>
+<span class="c1">#                                                                                #</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in all #</span>
+<span class="c1"># copies or substantial portions of the Software.                                #</span>
+<span class="c1">#                                                                                #</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR     #</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,       #</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE    #</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER         #</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,  #</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  #</span>
+<span class="c1"># SOFTWARE.                                                                      #</span>
+<span class="c1">##################################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;The RoboTools RoboFrames modules defines classes that store individual frame</span>
+<span class="sd">metadata and functions for file I/O.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">###############</span>
+<span class="c1">### MODULES ###</span>
+<span class="c1">###############</span>
+
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="kn">from</span> <span class="nn">robotools.defines</span> <span class="kn">import</span> <span class="n">ImageFormat</span>
+<span class="kn">from</span> <span class="nn">robotools.file_utils</span> <span class="kn">import</span> <span class="n">extension_from_filepath</span><span class="p">,</span> <span class="n">read_image</span><span class="p">,</span> <span class="n">read_pointcloud</span>
+
+<span class="c1">###############</span>
+<span class="c1">### CLASSES ###</span>
+<span class="c1">###############</span>
+
+
+<span class="c1">### ROBO FRAME BASE ###</span>
+<div class="viewcode-block" id="RoboFrameBase"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameBase">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameBase</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;The base class inherited by every RoboTools frame type.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        frame_id (int): the frame ID number.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The constructor for the RoboFrameBase class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frame_id (int): the frame ID number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame_id</span><span class="p">)</span></div>
+
+
+<span class="c1">### ROBO FRAME CSV ###</span>
+<div class="viewcode-block" id="RoboFrameCSV"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameCSV">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameCSV</span><span class="p">(</span><span class="n">RoboFrameBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The RoboTools class for storing a line of data contained within a CSV file, or similar file type.</span>
+<span class="sd">    Each line in the CSV should be its own RoboFrameCSV object where the attributes are the CSV headers,</span>
+<span class="sd">    and the values for each attribute is the value for that header for that particular line.</span>
+
+<span class="sd">    The class is derived from the RoboFrameBase class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">=</span> <span class="p">(),</span> <span class="n">values</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">=</span> <span class="p">())</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The constructor for the RoboFrameCSV class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frame_id (int): the frame ID number.</span>
+<span class="sd">            fields (Tuple, optional): the fields (CSV headers) for the object. These fields will become the object attributes. Defaults to ().</span>
+<span class="sd">            values (Tuple, optional): the values for the corresponding fields. Defaults to ().</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if the length for fields and values is not equal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The number of fields and values must be equal.&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">val</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="RoboFrameCSV.add_data"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameCSV.add_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Adds a field (object attribute) to the object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): the name of the field to be added.</span>
+<span class="sd">            value (_type_): the value for said field/attribute.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">value</span><span class="p">)</span></div></div>
+
+<span class="c1">### ROBO FRAME FILE ###</span>
+<div class="viewcode-block" id="RoboFrameFile"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameFile">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameFile</span><span class="p">(</span><span class="n">RoboFrameBase</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).</span>
+<span class="sd">    This abstract base class provides properties for common file I/O tasks (e.g., getting the file extension or filename)</span>
+
+<span class="sd">    The class is derived from the RoboFrameBase class.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        filepath (Pathlib.path): the absolute file path.</span>
+<span class="sd">        filestem (str): the name of the file without the path or extension.</span>
+<span class="sd">        filename (str): the name of the file, this includes the file extension.</span>
+<span class="sd">        rootpath (Pathlib.Path): the absolute path to the parent folder of the file.</span>
+<span class="sd">        extension (str): the file extension without the period (e.g., &#39;png&#39; not &#39;.png&#39;).</span>
+<span class="sd">        prefix (str): the prefix for the file. Will be set to None if there is no prefix.</span>
+<span class="sd">        user_notes (str): the user notes contained within the file name. Will be set to None if there are no user notes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The class constructor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frame_id (int): the frame ID number.</span>
+<span class="sd">            filepath (pathlib.Path): the absolute path to the file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+    <span class="c1"># Filename properties</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">filestem</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The name of the file without the path or extension (e.g., &#39;/&lt;path-to-file&gt;/&lt;filestem&gt;.&lt;extension&gt;&#39;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: the filestem for the frame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">stem</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;the name of the file, this includes the file extension. (e.g., &#39;/&lt;path-to-file&gt;/&lt;filestem&gt;.&lt;extension&gt;&#39;).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: the filename for the frame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rootpath</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The absolute path to the parent folder for the frame.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: the absolute path to the parent folder for the frame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">extension</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The extension for the frame without the period</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The extension for the frame without the period. Will return None if the file has no extension.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">extension_from_filepath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The prefix for the frame.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The prefix for the frame. Will return None if the file has no prefix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">user_notes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The user notes contained within the filename.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The user notes contained within the filename. Will return None if no user notes exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="RoboFrameFile.read"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameFile.read">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c1"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;To be implemented in each dervied class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+
+
+<span class="c1">### ROBO FRAME IMAGE ###</span>
+<div class="viewcode-block" id="RoboFrameImage"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameImage">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameImage</span><span class="p">(</span><span class="n">RoboFrameFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The RoboTools class for images. Each image within a set should be its own RoboFrameImage</span>
+<span class="sd">    object.</span>
+
+<span class="sd">    The class is derived from the RoboFrameFile class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The class constructor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frame_id (int): the frame ID number.</span>
+<span class="sd">            filepath (pathlib.Path): the absolute path to the image file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame_id</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+
+    
+<div class="viewcode-block" id="RoboFrameImage.read"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameImage.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Reads an image file and returns the data. The image can be either read in as</span>
+<span class="sd">        an OpenCV image (numpy array) or as a PIL image. The image can be forced to be read</span>
+<span class="sd">        in as colour, grayscale, or automatically determined.</span>
+
+<span class="sd">        Kwargs:</span>
+<span class="sd">            image_format (ImageFormat): the format for the returned image data. Defaults to ImageFormat.OPENCV</span>
+<span class="sd">            colour (bool): used to force the image colour type. Colour (True), grayscale (False), or if the</span>
+<span class="sd">                colour should be automatically determined (None). Defaults to True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Union[np.ndarray, Image.Image]: the returned image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">image_format</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;image_format&#39;</span><span class="p">,</span> <span class="n">ImageFormat</span><span class="o">.</span><span class="n">OPENCV</span><span class="p">)</span>
+        <span class="n">colour</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;colour&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">read_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image_format</span><span class="p">,</span> <span class="n">colour</span><span class="p">)</span></div></div>
+
+
+<span class="c1">### ROBO FRAME POINT CLOUD ###</span>
+<div class="viewcode-block" id="RoboFramePointCloud"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFramePointCloud">[docs]</a><span class="k">class</span> <span class="nc">RoboFramePointCloud</span><span class="p">(</span><span class="n">RoboFrameFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The RoboTools class for point clouds. Each point cloud within a set should be its own</span>
+<span class="sd">    RoboFramePointCloud object.</span>
+
+<span class="sd">    The class is derived from the RoboFrameFile class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The class constructor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frame_id (int): the frame ID number.</span>
+<span class="sd">            filepath (pathlib.Path): the absolute path to the point cloud file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame_id</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+
+    
+<div class="viewcode-block" id="RoboFramePointCloud.read"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFramePointCloud.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">PointCloud</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Reads a point cloud file and returns the data as an Open3D point cloud object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            o3d.geometry.PointCloud: the returned point cloud.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">read_pointcloud</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span></div></div>
+
+<span class="c1">########################</span>
+<span class="c1">### PUBLIC FUNCTIONS ###</span>
+<span class="c1">########################</span>
+
+
+
+<span class="c1">#########################</span>
+<span class="c1">### PRIVATE FUNCTIONS ###</span>
+<span class="c1">#########################</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, James Mount.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
