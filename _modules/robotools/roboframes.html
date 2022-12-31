@@ -127,19 +127,23 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        frame_id (int): the frame ID number.</span>
+<span class="sd">        timestamp (float): the timestamp for the frame. Defaults to None.</span>
+<span class="sd">        pose (sm.SE3): the pose for the frame. Defaults to None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pose</span><span class="p">:</span> <span class="n">sm</span><span class="o">.</span><span class="n">SE3</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The constructor for the RoboFrameBase class.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            frame_id (int): the frame ID number.</span>
+<span class="sd">            timestamp (float): the timestamp for the frame. Defaults to None.</span>
+<span class="sd">            pose (sm.SE3): the pose for the frame. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frame_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame_id</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">timestamp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">pose</span>
 
-    
+
 <div class="viewcode-block" id="RoboFrame.add_data"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame.add_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Adds a field (object attribute) to the object.</span>
 
@@ -213,7 +217,7 @@
 <span class="sd">        elements will be set to the default (0, 0, 0 for translational, and 0 degrees for rotational).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            **kwargs: </span>
+<span class="sd">            **kwargs:</span>
 <span class="sd">                **pos_x** (*float*): the x compononent for translation.</span>
 <span class="sd">                </span>
 <span class="sd">                **pos_y** (*float*): the y compononent for translation.</span>
