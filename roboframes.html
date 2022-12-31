@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="File IO Module" href="file_utils.html" />
-    <link rel="prev" title="Welcome to the RoboTools Documentation!" href="index.html" /> 
+    <link rel="prev" title="RoboTools Semantics" href="robotools_semantics.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,6 +42,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="robotools_semantics.html">RoboTools Semantics</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">RoboFrames Module</a><ul class="simple">
 </ul>
 </li>
@@ -80,12 +81,12 @@
 <span class="target" id="module-robotools.roboframes"></span><p>The RoboTools RoboFrames modules defines classes that store individual frame
 metadata and functions for file I/O.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameBase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robotools.roboframes.</span></span><span class="sig-name descname"><span class="pre">RoboFrameBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameBase" title="Permalink to this definition"></a></dt>
-<dd><p>The base class inherited by every RoboTools frame type.</p>
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrame">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robotools.roboframes.</span></span><span class="sig-name descname"><span class="pre">RoboFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrame" title="Permalink to this definition"></a></dt>
+<dd><p>The RoboFrame class.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameBase.frame_id">
-<span class="sig-name descname"><span class="pre">frame_id</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrameBase.frame_id" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrame.frame_id">
+<span class="sig-name descname"><span class="pre">frame_id</span></span><a class="headerlink" href="#robotools.roboframes.RoboFrame.frame_id" title="Permalink to this definition"></a></dt>
 <dd><p>the frame ID number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -94,25 +95,77 @@ metadata and functions for file I/O.</p>
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameCSV">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robotools.roboframes.</span></span><span class="sig-name descname"><span class="pre">RoboFrameCSV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameCSV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameCSV" title="Permalink to this definition"></a></dt>
-<dd><p>The RoboTools class for storing a line of data contained within a CSV file, or similar file type.
-Each line in the CSV should be its own RoboFrameCSV object where the attributes are the CSV headers,
-and the values for each attribute is the value for that header for that particular line.</p>
-<p>The class is derived from the <a class="reference internal" href="#robotools.roboframes.RoboFrameBase" title="robotools.roboframes.RoboFrameBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">RoboFrameBase</span></code></a> class.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="robotools.roboframes.RoboFrameCSV.add_data">
-<span class="sig-name descname"><span class="pre">add_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameCSV.add_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameCSV.add_data" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrame.add_data">
+<span class="sig-name descname"><span class="pre">add_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrame.add_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrame.add_data" title="Permalink to this definition"></a></dt>
 <dd><p>Adds a field (object attribute) to the object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) – the name of the field to be added.</p></li>
-<li><p><strong>value</strong> (<em>_type_</em>) – the value for said field/attribute.</p></li>
+<li><p><strong>field</strong> (<em>str</em>) – the name of the field(s)/attribute(s) to be added. The field(s) will be converted to be all lowercase.</p></li>
+<li><p><strong>value</strong> (<em>_type_</em>) – the value(s) for said field(s)/attribute(s).</p></li>
 </ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if the length for fields and values is not equal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrame.get_pose_data">
+<span class="sig-name descname"><span class="pre">get_pose_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrame.get_pose_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrame.get_pose_data" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the pose data associated with the frame as a dictionary. The keys in the dictionary will be
+[pos_x, pos_y, pos_z, quat_w, quat_x, quat_y, quat_z].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the pose data as a dictionary or None if the pose is not set or not a Spatial Maths SE(3) object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrame.has_field">
+<span class="sig-name descname"><span class="pre">has_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrame.has_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrame.has_field" title="Permalink to this definition"></a></dt>
+<dd><p>Checks to see if a field exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>field</strong> (<em>str</em>) – the name of the field. The field will be converted to be all lowercase.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true if the field exists.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="robotools.roboframes.RoboFrame.set_pose">
+<span class="sig-name descname"><span class="pre">set_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrame.set_pose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrame.set_pose" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the pose data using a set of keyword arguments. The translational and rotational parts
+are independent. If the translational or rotational part is not provided the corresponding
+elements will be set to the default (0, 0, 0 for translational, and 0 degrees for rotational).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – <p><strong>pos_x</strong> (<em>float</em>): the x compononent for translation.</p>
+<p><strong>pos_y</strong> (<em>float</em>): the y compononent for translation.</p>
+<p><strong>pos_z</strong> (<em>float</em>): the y compononent for translation.</p>
+<p><strong>quat_w</strong> (<em>float</em>): the w compononent for rotation.</p>
+<p><strong>quat_x</strong> (<em>float</em>): the x compononent for rotation.</p>
+<p><strong>quat_y</strong> (<em>float</em>): the y compononent for rotation.</p>
+<p><strong>quat_z</strong> (<em>float</em>): the z compononent for rotation.</p>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true if the pose was successfully set.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -124,7 +177,7 @@ and the values for each attribute is the value for that header for that particul
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">robotools.roboframes.</span></span><span class="sig-name descname"><span class="pre">RoboFrameFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/robotools/roboframes.html#RoboFrameFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#robotools.roboframes.RoboFrameFile" title="Permalink to this definition"></a></dt>
 <dd><p>An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).
 This abstract base class provides properties for common file I/O tasks (e.g., getting the file extension or filename)</p>
-<p>The class is derived from the <a class="reference internal" href="#robotools.roboframes.RoboFrameBase" title="robotools.roboframes.RoboFrameBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">RoboFrameBase</span></code></a> class.</p>
+<p>The class is derived from the <code class="xref py py-class docutils literal notranslate"><span class="pre">RoboFrameBase</span></code> class.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="robotools.roboframes.RoboFrameFile.extension">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extension</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#robotools.roboframes.RoboFrameFile.extension" title="Permalink to this definition"></a></dt>
@@ -278,7 +331,7 @@ RoboFramePointCloud object.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to the RoboTools Documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="robotools_semantics.html" class="btn btn-neutral float-left" title="RoboTools Semantics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="file_utils.html" class="btn btn-neutral float-right" title="File IO Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

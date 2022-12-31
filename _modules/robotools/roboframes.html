@@ -39,6 +39,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../robotools_semantics.html">RoboTools Semantics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../roboframes.html">RoboFrames Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../file_utils.html">File IO Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../defines.html">Defines Module</a></li>
@@ -105,13 +106,14 @@
 
 <span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
 <span class="kn">import</span> <span class="nn">open3d</span> <span class="k">as</span> <span class="nn">o3d</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">spatialmath</span> <span class="k">as</span> <span class="nn">sm</span>
 
-<span class="kn">from</span> <span class="nn">robotools.defines</span> <span class="kn">import</span> <span class="n">ImageFormat</span>
+<span class="kn">from</span> <span class="nn">robotools.defines</span> <span class="kn">import</span> <span class="n">ImageFormat</span><span class="p">,</span> <span class="n">PoseComponents</span>
 <span class="kn">from</span> <span class="nn">robotools.file_utils</span> <span class="kn">import</span> <span class="n">extension_from_filepath</span><span class="p">,</span> <span class="n">read_image</span><span class="p">,</span> <span class="n">read_pointcloud</span>
 
 <span class="c1">###############</span>
@@ -119,9 +121,9 @@
 <span class="c1">###############</span>
 
 
-<span class="c1">### ROBO FRAME BASE ###</span>
-<div class="viewcode-block" id="RoboFrameBase"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameBase">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameBase</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;The base class inherited by every RoboTools frame type.</span>
+<span class="c1">### ROBO FRAME ###</span>
+<div class="viewcode-block" id="RoboFrame"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame">[docs]</a><span class="k">class</span> <span class="nc">RoboFrame</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;The RoboFrame class.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        frame_id (int): the frame ID number.</span>
@@ -133,49 +135,122 @@
 <span class="sd">        Args:</span>
 <span class="sd">            frame_id (int): the frame ID number.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">frame_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame_id</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="kc">None</span>
 
-
-<span class="c1">### ROBO FRAME CSV ###</span>
-<div class="viewcode-block" id="RoboFrameCSV"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameCSV">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameCSV</span><span class="p">(</span><span class="n">RoboFrameBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The RoboTools class for storing a line of data contained within a CSV file, or similar file type.</span>
-<span class="sd">    Each line in the CSV should be its own RoboFrameCSV object where the attributes are the CSV headers,</span>
-<span class="sd">    and the values for each attribute is the value for that header for that particular line.</span>
-
-<span class="sd">    The class is derived from the :class:`.RoboFrameBase` class.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">=</span> <span class="p">(),</span> <span class="n">values</span><span class="p">:</span> <span class="n">Tuple</span> <span class="o">=</span> <span class="p">())</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The constructor for the RoboFrameCSV class.</span>
+    
+<div class="viewcode-block" id="RoboFrame.add_data"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame.add_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Adds a field (object attribute) to the object.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            frame_id (int): the frame ID number.</span>
-<span class="sd">            fields (Tuple, optional): the fields (CSV headers) for the object. These fields will become the object attributes. Defaults to ().</span>
-<span class="sd">            values (Tuple, optional): the values for the corresponding fields. Defaults to ().</span>
+<span class="sd">            field (str): the name of the field(s)/attribute(s) to be added. The field(s) will be converted to be all lowercase.</span>
+<span class="sd">            value (_type_): the value(s) for said field(s)/attribute(s).</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: if the length for fields and values is not equal.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame_id</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">field</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">value</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">value</span><span class="p">])</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">field</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The number of fields and values must be equal.&quot;</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">fld</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">val</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RoboFrameCSV.add_data"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameCSV.add_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Adds a field (object attribute) to the object.</span>
+<div class="viewcode-block" id="RoboFrame.has_field"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame.has_field">[docs]</a>    <span class="k">def</span> <span class="nf">has_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Checks to see if a field exists.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            name (str): the name of the field to be added.</span>
-<span class="sd">            value (_type_): the value for said field/attribute.</span>
+<span class="sd">            field (str): the name of the field. The field will be converted to be all lowercase.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: true if the field exists.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="RoboFrame.get_pose_data"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame.get_pose_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_pose_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Gets the pose data associated with the frame as a dictionary. The keys in the dictionary will be</span>
+<span class="sd">        [pos_x, pos_y, pos_z, quat_w, quat_x, quat_y, quat_z].</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict: the pose data as a dictionary or None if the pose is not set or not a Spatial Maths SE(3) object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">SE3</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;pos_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+
+        <span class="n">quats</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">r2q</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">A</span><span class="p">[:</span><span class="mi">3</span><span class="p">,:</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;quat_w&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">quats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;quat_x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">quats</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;quat_y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">quats</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;quat_z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">quats</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="RoboFrame.set_pose"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame.set_pose">[docs]</a>    <span class="k">def</span> <span class="nf">set_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sets the pose data using a set of keyword arguments. The translational and rotational parts</span>
+<span class="sd">        are independent. If the translational or rotational part is not provided the corresponding</span>
+<span class="sd">        elements will be set to the default (0, 0, 0 for translational, and 0 degrees for rotational).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs: </span>
+<span class="sd">                **pos_x** (*float*): the x compononent for translation.</span>
+<span class="sd">                </span>
+<span class="sd">                **pos_y** (*float*): the y compononent for translation.</span>
+<span class="sd">                </span>
+<span class="sd">                **pos_z** (*float*): the y compononent for translation.</span>
+<span class="sd">                </span>
+<span class="sd">                **quat_w** (*float*): the w compononent for rotation.</span>
+<span class="sd">                </span>
+<span class="sd">                **quat_x** (*float*): the x compononent for rotation.</span>
+<span class="sd">                </span>
+<span class="sd">                **quat_y** (*float*): the y compononent for rotation.</span>
+<span class="sd">                </span>
+<span class="sd">                **quat_z** (*float*): the z compononent for rotation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: true if the pose was successfully set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">x</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">PoseComponents</span><span class="o">.</span><span class="n">FULL</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">SE3</span><span class="p">([</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">PoseComponents</span><span class="o">.</span><span class="n">POS_ONLY</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">A</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">q2r</span><span class="p">([</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">PoseComponents</span><span class="o">.</span><span class="n">ROT_ONLY</span><span class="p">])</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">([</span><span class="n">x</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">PoseComponents</span><span class="o">.</span><span class="n">POS_ONLY</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">SE3</span><span class="p">([</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">PoseComponents</span><span class="o">.</span><span class="n">POS_ONLY</span><span class="p">])</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">([</span><span class="n">x</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">PoseComponents</span><span class="o">.</span><span class="n">ROT_ONLY</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">SE3</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">A</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">q2r</span><span class="p">([</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">PoseComponents</span><span class="o">.</span><span class="n">ROT_ONLY</span><span class="p">])</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div></div>
+
 
 <span class="c1">### ROBO FRAME FILE ###</span>
-<div class="viewcode-block" id="RoboFrameFile"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameFile">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameFile</span><span class="p">(</span><span class="n">RoboFrameBase</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="RoboFrameFile"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameFile">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameFile</span><span class="p">(</span><span class="n">RoboFrame</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).</span>
 <span class="sd">    This abstract base class provides properties for common file I/O tasks (e.g., getting the file extension or filename)</span>
 
