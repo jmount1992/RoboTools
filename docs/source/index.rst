@@ -12,6 +12,7 @@ Welcome to the RoboTools Documentation!
    :hidden:
    :caption: Reference
 
+   robotools_semantics
    roboframes
    file_utils
    defines

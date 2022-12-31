@@ -34,13 +34,14 @@ metadata and functions for file I/O.
 
 import pathlib
 import numpy as np
-from typing import Tuple, Union
+from typing import Tuple, Union, Any, Dict
 from abc import ABC, abstractmethod
 
 import open3d as o3d
 from PIL import Image
+import spatialmath as sm
 
-from robotools.defines import ImageFormat
+from robotools.defines import ImageFormat, PoseComponents
 from robotools.file_utils import extension_from_filepath, read_image, read_pointcloud
 
 ###############
@@ -48,9 +49,9 @@ from robotools.file_utils import extension_from_filepath, read_image, read_point
 ###############
 
 
-### ROBO FRAME BASE ###
-class RoboFrameBase():
-    """The base class inherited by every RoboTools frame type.
+### ROBO FRAME ###
+class RoboFrame():
+    """The RoboFrame class.
 
     Attributes:
         frame_id (int): the frame ID number.
@@ -63,48 +64,121 @@ class RoboFrameBase():
             frame_id (int): the frame ID number.
         """
         self.frame_id = int(frame_id)
+        self.timestamp = None
+        self.pose = None
 
-
-### ROBO FRAME CSV ###
-class RoboFrameCSV(RoboFrameBase):
-    """The RoboTools class for storing a line of data contained within a CSV file, or similar file type.
-    Each line in the CSV should be its own RoboFrameCSV object where the attributes are the CSV headers,
-    and the values for each attribute is the value for that header for that particular line.
-
-    The class is derived from the :class:`.RoboFrameBase` class.
-    """
-
-    def __init__(self, frame_id: int, fields: Tuple = (), values: Tuple = ()) -> None:
-        """The constructor for the RoboFrameCSV class.
+    
+    def add_data(self, field: Union[str, Tuple], value: Union[Any, Tuple]) -> None:
+        """Adds a field (object attribute) to the object.
 
         Args:
-            frame_id (int): the frame ID number.
-            fields (Tuple, optional): the fields (CSV headers) for the object. These fields will become the object attributes. Defaults to ().
-            values (Tuple, optional): the values for the corresponding fields. Defaults to ().
+            field (str): the name of the field(s)/attribute(s) to be added. The field(s) will be converted to be all lowercase.
+            value (_type_): the value(s) for said field(s)/attribute(s).
 
         Raises:
             ValueError: if the length for fields and values is not equal.
         """
-        super().__init__(frame_id)
-
-        if len(fields) != len(values):
+        if isinstance(field, str):
+            field = tuple([field])
+        elif isinstance(field, list):
+            field = tuple(field)
+        
+        if isinstance(value, str):
+            value = tuple([value])
+        elif isinstance(value, list):
+            value = tuple(value)
+        elif isinstance(value, tuple) is False:
+            value = tuple([value])
+        
+        if len(field) != len(value):
             raise ValueError("The number of fields and values must be equal.")
 
-        for field, val in zip(fields, values):
-            self.add_data(field.lower(), val)
+        for fld, val in zip(field, value):
+            setattr(self, fld.lower(), val)
 
 
-    def add_data(self, name: str, value) -> None:
-        """Adds a field (object attribute) to the object.
+    def has_field(self, field: str) -> bool:
+        """Checks to see if a field exists.
 
         Args:
-            name (str): the name of the field to be added.
-            value (_type_): the value for said field/attribute.
+            field (str): the name of the field. The field will be converted to be all lowercase.
+
+        Returns:
+            bool: true if the field exists.
         """
-        setattr(self, name.lower(), value)
+        return hasattr(self, field.lower())
+
+
+    def get_pose_data(self) -> Dict:
+        """Gets the pose data associated with the frame as a dictionary. The keys in the dictionary will be
+        [pos_x, pos_y, pos_z, quat_w, quat_x, quat_y, quat_z].
+
+        Returns:
+            Dict: the pose data as a dictionary or None if the pose is not set or not a Spatial Maths SE(3) object.
+        """
+        if self.pose is None:
+            return None
+        elif isinstance(self.pose, sm.SE3) is False:
+            return None
+
+        data = {}
+        data['pos_x'] = self.pose.A[0,3]
+        data['pos_y'] = self.pose.A[1,3]
+        data['pos_z'] = self.pose.A[2,3]
+
+        quats = sm.base.r2q(self.pose.A[:3,:3])
+        data['quat_w'] = quats[0]
+        data['quat_x'] = quats[1]
+        data['quat_y'] = quats[2]
+        data['quat_z'] = quats[3]
+
+        return data
+
+
+    def set_pose(self, **kwargs) -> bool:
+        """Sets the pose data using a set of keyword arguments. The translational and rotational parts
+        are independent. If the translational or rotational part is not provided the corresponding
+        elements will be set to the default (0, 0, 0 for translational, and 0 degrees for rotational).
+
+        Args:
+            **kwargs: 
+                **pos_x** (*float*): the x compononent for translation.
+                
+                **pos_y** (*float*): the y compononent for translation.
+                
+                **pos_z** (*float*): the y compononent for translation.
+                
+                **quat_w** (*float*): the w compononent for rotation.
+                
+                **quat_x** (*float*): the x compononent for rotation.
+                
+                **quat_y** (*float*): the y compononent for rotation.
+                
+                **quat_z** (*float*): the z compononent for rotation.
+
+        Returns:
+            bool: true if the pose was successfully set.
+        """
+
+        if all([x in kwargs for x in PoseComponents.FULL]):
+            self.pose = sm.SE3([kwargs.get(x) for x in PoseComponents.POS_ONLY])
+            self.pose.A[:3, :3] = sm.base.q2r([kwargs.get(x) for x in PoseComponents.ROT_ONLY])
+            return True
+
+        elif all([x in kwargs for x in PoseComponents.POS_ONLY]):
+            self.pose = sm.SE3([kwargs.get(x) for x in PoseComponents.POS_ONLY])
+            return True
+
+        elif all([x in kwargs for x in PoseComponents.ROT_ONLY]):
+            self.pose = sm.SE3()
+            self.pose.A[:3, :3] = sm.base.q2r([kwargs.get(x) for x in PoseComponents.ROT_ONLY])
+            return True
+
+        return False
+
 
 ### ROBO FRAME FILE ###
-class RoboFrameFile(RoboFrameBase, ABC):
+class RoboFrameFile(RoboFrame, ABC):
     """An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).
     This abstract base class provides properties for common file I/O tasks (e.g., getting the file extension or filename)
 

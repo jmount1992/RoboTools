@@ -36,6 +36,7 @@ import numpy as np
 
 import cv2
 import open3d as o3d
+import spatialmath as sm
 from PIL import Image, ImageChops
 
 from robotools.roboframes import *
@@ -48,33 +49,82 @@ SCRIPT_DIR = pathlib.Path(os.path.dirname(os.path.abspath(__file__)))
 ###################################
 
 # Constructor Tests
-def test_robo_frame_base_class_constructor():
-    frame = RoboFrameBase(1)
+def test_roboframe_class_constructor():
+    frame = RoboFrame(1)
     assert frame.frame_id == 1
 
+# Test add_data and has field
+def test_roboframe_class_add_data():
+    frame = RoboFrame(1)
+    frame.add_data('test_0', 1)
 
-##################################
-### ROBOFRAME CSV CLASS TESTS ###
-##################################
+    assert frame.test_0 == 1
+    assert frame.has_field('test_0') == True
+    assert frame.has_field('test_1') == False
 
-# Constructor Tests
-def test_robo_frame_csv_class_constructor_with_no_attributes():    
-    frame = RoboFrameCSV(1)
-    assert frame.frame_id == 1
+    frame.add_data(['test_2', 'test_3'], ['string', 10.1])
+    assert frame.test_2 == 'string'
+    assert frame.test_3 == 10.1
 
-def test_robo_frame_csv_class_constructor_with_attributes():
-    atts = {"att_1": 1, "att_2": 0.5, "att_3": "some_string", "Att_4": [1, 0.5, "some_string"]}
-    frame = RoboFrameCSV(1, atts.keys(), atts.values())
+    frame.add_data(['test_4'], 'string')
+    frame.add_data('test_5', [10])
+    assert frame.test_4 == 'string'
+    assert frame.test_5 == 10
 
-    for key, val in atts.items():
-        assert hasattr(frame, key.lower()) == True
-        assert getattr(frame, key.lower()) == val
-
-    assert hasattr(frame, "Att_4") == False
-
-def test_robo_frame_csv_class_constructor_with_inequal_lengths():
     with pytest.raises(ValueError):
-        RoboFrameCSV(1, ["att_1", "att_2"], [1])
+        frame.add_data(['test_6', 'test_7'], [10])
+        frame.add_data('test_8', ['string', 10])
+
+
+# Test set_pose and get_pose_data
+def test_roboframe_class_timestamp():
+    frame = RoboFrame(1)
+
+    assert frame.get_pose_data() == None
+    frame.pose == 10.1
+    assert frame.get_pose_data() == None
+
+    frame.pose = sm.SE3()
+    data = frame.get_pose_data()
+    assert data['pos_x'] == 0
+    assert data['pos_y'] == 0
+    assert data['pos_z'] == 0
+    assert data['quat_w'] == 1
+    assert data['quat_x'] == 0
+    assert data['quat_y'] == 0
+    assert data['quat_z'] == 0
+
+    assert frame.set_pose(pos_x=1) == False
+    assert frame.set_pose(pos_x=1, pos_y=2, pos_z=3, quat_w=0, quat_x=1, quat_y=0, quat_z=0) == True
+    
+    data = frame.get_pose_data()
+    assert data['pos_x'] == 1
+    assert data['pos_y'] == 2
+    assert data['pos_z'] == 3
+    assert data['quat_w'] == 0
+    assert data['quat_x'] == 1
+    assert data['quat_y'] == 0
+    assert data['quat_z'] == 0
+
+    assert frame.set_pose(pos_x=1, pos_y=2, pos_z=3) == True
+    data = frame.get_pose_data()
+    assert data['pos_x'] == 1
+    assert data['pos_y'] == 2
+    assert data['pos_z'] == 3
+    assert data['quat_w'] == 1
+    assert data['quat_x'] == 0
+    assert data['quat_y'] == 0
+    assert data['quat_z'] == 0
+
+    assert frame.set_pose(quat_w=0, quat_x=0, quat_y=1, quat_z=0) == True
+    data = frame.get_pose_data()
+    assert data['pos_x'] == 0
+    assert data['pos_y'] == 0
+    assert data['pos_z'] == 0
+    assert data['quat_w'] == 0
+    assert data['quat_x'] == 0
+    assert data['quat_y'] == 1
+    assert data['quat_z'] == 0
 
 
 ###################################

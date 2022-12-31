@@ -49,3 +49,8 @@ class FrameType(Enum):
 class ImageFormat(Enum):
     OPENCV = 0
     PIL = 1
+
+class PoseComponents:
+    POS_ONLY = ['pos_x', 'pos_y', 'pos_z']
+    ROT_ONLY = ['quat_w', 'quat_x', 'quat_y', 'quat_z']
+    FULL = ['pos_x', 'pos_y', 'pos_z', 'quat_w', 'quat_x', 'quat_y', 'quat_z']
