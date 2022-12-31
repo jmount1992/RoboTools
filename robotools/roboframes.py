@@ -55,19 +55,23 @@ class RoboFrame():
 
     Attributes:
         frame_id (int): the frame ID number.
+        timestamp (float): the timestamp for the frame. Defaults to None.
+        pose (sm.SE3): the pose for the frame. Defaults to None.
     """
 
-    def __init__(self, frame_id: int) -> None:
+    def __init__(self, frame_id: int, timestamp: float = None, pose: sm.SE3 = None) -> None:
         """The constructor for the RoboFrameBase class.
 
         Args:
             frame_id (int): the frame ID number.
+            timestamp (float): the timestamp for the frame. Defaults to None.
+            pose (sm.SE3): the pose for the frame. Defaults to None.
         """
         self.frame_id = int(frame_id)
-        self.timestamp = None
-        self.pose = None
+        self.timestamp = timestamp
+        self.pose = pose
 
-    
+
     def add_data(self, field: Union[str, Tuple], value: Union[Any, Tuple]) -> None:
         """Adds a field (object attribute) to the object.
 
@@ -141,7 +145,7 @@ class RoboFrame():
         elements will be set to the default (0, 0, 0 for translational, and 0 degrees for rotational).
 
         Args:
-            **kwargs: 
+            **kwargs:
                 **pos_x** (*float*): the x compononent for translation.
                 
                 **pos_y** (*float*): the y compononent for translation.

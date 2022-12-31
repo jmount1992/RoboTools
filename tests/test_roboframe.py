@@ -81,7 +81,7 @@ def test_roboframe_class_timestamp():
     frame = RoboFrame(1)
 
     assert frame.get_pose_data() == None
-    frame.pose == 10.1
+    frame.pose = 10.1
     assert frame.get_pose_data() == None
 
     frame.pose = sm.SE3()
