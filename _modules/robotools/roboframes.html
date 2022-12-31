@@ -114,7 +114,7 @@
 <span class="kn">import</span> <span class="nn">spatialmath</span> <span class="k">as</span> <span class="nn">sm</span>
 
 <span class="kn">from</span> <span class="nn">robotools.defines</span> <span class="kn">import</span> <span class="n">ImageFormat</span><span class="p">,</span> <span class="n">PoseComponents</span>
-<span class="kn">from</span> <span class="nn">robotools.file_utils</span> <span class="kn">import</span> <span class="n">extension_from_filepath</span><span class="p">,</span> <span class="n">read_image</span><span class="p">,</span> <span class="n">read_pointcloud</span>
+<span class="kn">from</span> <span class="nn">robotools.file_utils</span> <span class="kn">import</span> <span class="n">extension_from_filepath</span><span class="p">,</span> <span class="n">read_image</span><span class="p">,</span> <span class="n">read_pointcloud</span><span class="p">,</span> <span class="n">supported_image_types</span><span class="p">,</span> <span class="n">supported_pointcloud_types</span>
 
 <span class="c1">###############</span>
 <span class="c1">### CLASSES ###</span>
@@ -261,13 +261,28 @@
 <span class="sd">    The class is derived from the :class:`.RoboFrameBase` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The class constructor.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            frame_id (int): the frame ID number.</span>
 <span class="sd">            filepath (pathlib.Path): the absolute path to the file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">filepath</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+        <span class="c1"># Determine frame ID from file path</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">((</span><span class="n">tmp</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">frame_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">frame_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Init attributes</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 
@@ -345,14 +360,19 @@
 <span class="sd">    The class is derived from the :class:`.RoboFrameFile` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The class constructor.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            frame_id (int): the frame ID number.</span>
 <span class="sd">            filepath (pathlib.Path): the absolute path to the image file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if the file is not a supported image type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame_id</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">extension_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">supported_image_types</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The file (</span><span class="si">%s</span><span class="s2">) is not a supported image file type. Supported image file types are: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">supported_image_types</span><span class="p">())))</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 
     
 <div class="viewcode-block" id="RoboFrameImage.read"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameImage.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">]:</span>
@@ -383,14 +403,19 @@
 <span class="sd">    The class is derived from the :class:`.RoboFrameFile` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;The class constructor.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            frame_id (int): the frame ID number.</span>
 <span class="sd">            filepath (pathlib.Path): the absolute path to the point cloud file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if the file is not a supported image type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">frame_id</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">extension_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">supported_pointcloud_types</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The file (</span><span class="si">%s</span><span class="s2">) is not a supported point cloud file type. Supported point cloud file types are: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="o">%</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">supported_pointcloud_types</span><span class="p">())))</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 
     
 <div class="viewcode-block" id="RoboFramePointCloud.read"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFramePointCloud.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">PointCloud</span><span class="p">:</span>

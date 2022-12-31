@@ -234,6 +234,20 @@
     <span class="n">pcd</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_point_cloud</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">pcd</span></div>
 
+
+<div class="viewcode-block" id="get_files"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.get_files">[docs]</a><span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Gets the list of files from a directory given a pattern</span>
+<span class="sd">    Args:</span>
+<span class="sd">        directory (pathlib.Path): the directory to get the list of mask files.</span>
+<span class="sd">        pattern (str): the pattern to search for. Defaults to \&#39;*\&#39;.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: sorted list of files (absolute file path).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="k">if</span> <span class="n">directory</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">directory</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">pattern</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">files</span> </div>
+
 <span class="c1">#########################</span>
 <span class="c1">### PRIVATE FUNCTIONS ###</span>
 <span class="c1">#########################</span>
