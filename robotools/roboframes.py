@@ -86,7 +86,7 @@ class RoboFrame():
             field = tuple([field])
         elif isinstance(field, list):
             field = tuple(field)
-        
+
         if isinstance(value, str):
             value = tuple([value])
         elif isinstance(value, list):
@@ -289,7 +289,7 @@ class RoboFrameImage(RoboFrameFile):
         in as colour, grayscale, or automatically determined.
 
         Args:
-            **kwargs: 
+            **kwargs:
                 **image_format** (:class:`.ImageFormat`, optional): the format for the returned image data. Defaults to ImageFormat.OPENCV
                 
                 **colour** (*bool*, optional): used to force the image colour type. Set to True to read in colour, False for grayscale, or
