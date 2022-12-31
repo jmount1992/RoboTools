@@ -42,7 +42,7 @@ from PIL import Image
 import spatialmath as sm
 
 from robotools.defines import ImageFormat, PoseComponents
-from robotools.file_utils import extension_from_filepath, read_image, read_pointcloud
+from robotools.file_utils import extension_from_filepath, read_image, read_pointcloud, supported_image_types, supported_pointcloud_types
 
 ###############
 ### CLASSES ###
@@ -189,13 +189,28 @@ class RoboFrameFile(RoboFrame, ABC):
     The class is derived from the :class:`.RoboFrameBase` class.
     """
 
-    def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
+    def __init__(self, filepath: pathlib.Path) -> None:
         """The class constructor.
 
         Args:
             frame_id (int): the frame ID number.
             filepath (pathlib.Path): the absolute path to the file.
         """
+
+        if isinstance(filepath, str):
+            filepath = pathlib.Path(filepath)
+
+        # Determine frame ID from file path
+        tmp = filepath.name
+        if len((tmp).rsplit('_')) > 1:
+            tmp = tmp.rsplit('_',1)[1]
+
+        if len(tmp.split('.')) == 0:
+            frame_id = int(tmp)
+        else:
+            frame_id = int(tmp.split('.')[0])
+
+        # Init attributes
         super().__init__(frame_id)
         self.filepath = pathlib.Path(filepath)
 
@@ -273,14 +288,19 @@ class RoboFrameImage(RoboFrameFile):
     The class is derived from the :class:`.RoboFrameFile` class.
     """
 
-    def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
+    def __init__(self, filepath: pathlib.Path) -> None:
         """The class constructor.
 
         Args:
-            frame_id (int): the frame ID number.
             filepath (pathlib.Path): the absolute path to the image file.
+
+        Raises:
+            ValueError: if the file is not a supported image type.
         """
-        super().__init__(frame_id, filepath)
+        if extension_from_filepath(filepath) not in supported_image_types():
+            raise ValueError("The file (%s) is not a supported image file type. Supported image file types are: %s."%(filepath, ', '.join(supported_image_types())))
+
+        super().__init__(filepath)
 
     
     def read(self, **kwargs) -> Union[np.ndarray, Image.Image]:
@@ -311,14 +331,19 @@ class RoboFramePointCloud(RoboFrameFile):
     The class is derived from the :class:`.RoboFrameFile` class.
     """
 
-    def __init__(self, frame_id: int, filepath: pathlib.Path) -> None:
+    def __init__(self, filepath: pathlib.Path) -> None:
         """The class constructor.
 
         Args:
-            frame_id (int): the frame ID number.
             filepath (pathlib.Path): the absolute path to the point cloud file.
+
+        Raises:
+            ValueError: if the file is not a supported image type.
         """
-        super().__init__(frame_id, filepath)
+        if extension_from_filepath(filepath) not in supported_pointcloud_types():
+            raise ValueError("The file (%s) is not a supported point cloud file type. Supported point cloud file types are: %s."%(filepath, ', '.join(supported_pointcloud_types())))
+
+        super().__init__(filepath)
 
     
     def read(self, **kwargs) -> o3d.geometry.PointCloud:

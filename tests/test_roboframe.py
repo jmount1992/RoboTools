@@ -131,25 +131,34 @@ def test_roboframe_class_timestamp():
 ### ROBOFRAME FILE CLASS TESTS ###
 ###################################
 
-# Using RoboFrameImage instead due to abstract base class
+# Dummy class inherited for RoboFrameFile to allow instantiation
+class DummyRoboFrameFile(RoboFrameFile):
+
+    def __init__(self, filepath: pathlib.Path) -> None:
+        super().__init__(filepath)
+
+    def read(self, **kwargs):
+        pass
+
+### TESTING CONSTRUCTORS ###
 # Test error is raised
 def test_constructor_error():
     with pytest.raises(TypeError):
-        RoboFrameFile(1, "/path/to/file/001.png")
+        RoboFrameFile("/path/to/file/001.png")
 
-### TESTING CONSTRUCTORS ###
 # Testing that frame id and filepath arguments to constructor are correctly passed
 def test_constructor_simple():
-    frame = RoboFrameImage(0, "/path/to/file/001.png")
+    frame = DummyRoboFrameFile("/path/to/file/001.png")
 
-    assert frame.frame_id == 0
+    assert frame.frame_id == 1
     assert frame.filepath == pathlib.Path("/path/to/file/001.png")
 
 # TESTING FILENAME PROPERTIES
 # Testing filepath with the form <id-number>.<extension> returns correct properties
 def test_file_properties_id_with_extension():
-    frame = RoboFrameImage(1, "/path/to/file/001.png")
+    frame = DummyRoboFrameFile("/path/to/file/001.png")
 
+    assert frame.frame_id == 1
     assert frame.filestem == "001"
     assert frame.filename == "001.png"
     assert frame.rootpath == pathlib.Path("/path/to/file")
@@ -160,8 +169,9 @@ def test_file_properties_id_with_extension():
 
 # Testing filepath with the form <id-number> returns correct properties
 def test_file_properties_id_without_extension():
-    frame = RoboFrameImage(1, "/path/to/file/001")
+    frame = DummyRoboFrameFile("/path/to/file/001")
 
+    assert frame.frame_id == 1
     assert frame.filestem == "001"
     assert frame.filename == "001"
     assert frame.rootpath == pathlib.Path("/path/to/file")
@@ -172,8 +182,9 @@ def test_file_properties_id_without_extension():
 
 # Testing filepath with the form <prefix>_<id-number>.<extension> returns correct properties
 def test_file_properties_prefix_id_with_extension():
-    frame = RoboFrameImage(1, "/path/to/file/frame_001.png")
+    frame = DummyRoboFrameFile("/path/to/file/frame_001.png")
 
+    assert frame.frame_id == 1
     assert frame.filestem == "frame_001"
     assert frame.filename == "frame_001.png"
     assert frame.rootpath == pathlib.Path("/path/to/file")
@@ -184,8 +195,9 @@ def test_file_properties_prefix_id_with_extension():
 
 # Testing filepath with the form <prefix>_<id-number> returns correct properties
 def test_file_properties_prefix_id_without_extension():
-    frame = RoboFrameImage(1, "/path/to/file/frame_001")
+    frame = DummyRoboFrameFile("/path/to/file/frame_001")
 
+    assert frame.frame_id == 1
     assert frame.filestem == "frame_001"
     assert frame.filename == "frame_001"
     assert frame.rootpath == pathlib.Path("/path/to/file")
@@ -196,8 +208,9 @@ def test_file_properties_prefix_id_without_extension():
 
 # Testing filepath with the form <prefix>_<user-notes>_<id-number>.<extension> returns correct properties
 def test_file_properties_prefix_usernotes_id_with_extension_simple():
-    frame = RoboFrameImage(1, "/path/to/file/frame_user-notes_001.png")
+    frame = DummyRoboFrameFile("/path/to/file/frame_user-notes_001.png")
 
+    assert frame.frame_id == 1
     assert frame.filestem == "frame_user-notes_001"
     assert frame.filename == "frame_user-notes_001.png"
     assert frame.rootpath == pathlib.Path("/path/to/file")
@@ -208,8 +221,9 @@ def test_file_properties_prefix_usernotes_id_with_extension_simple():
 
 # Testing filepath with the form <prefix>_<user-notes>_<id-number> returns correct properties
 def test_file_properties_prefix_usernotes_id_without_extension_simple():
-    frame = RoboFrameImage(1, "/path/to/file/frame_user-notes_001")
+    frame = DummyRoboFrameFile("/path/to/file/frame_user-notes_001")
 
+    assert frame.frame_id == 1
     assert frame.filestem == "frame_user-notes_001"
     assert frame.filename == "frame_user-notes_001"
     assert frame.rootpath == pathlib.Path("/path/to/file")
@@ -221,8 +235,9 @@ def test_file_properties_prefix_usernotes_id_without_extension_simple():
 # Testing filepath with the form <prefix>_<user-notes>_<id-number>.<extension> returns correct properties
 # when user notes includes underscores
 def test_file_properties_prefix_usernotes_id_with_extension_complex():
-    frame = RoboFrameImage(1, "/path/to/file/frame_user_notes_001.png")
+    frame = DummyRoboFrameFile("/path/to/file/frame_user_notes_001.png")
 
+    assert frame.frame_id == 1
     assert frame.filestem == "frame_user_notes_001"
     assert frame.filename == "frame_user_notes_001.png"
     assert frame.rootpath == pathlib.Path("/path/to/file")
@@ -233,8 +248,9 @@ def test_file_properties_prefix_usernotes_id_with_extension_complex():
 
 # Testing filepath with the form <prefix>_<user-notes>_<id-number> returns correct properties
 def test_file_properties_prefix_usernotes_id_without_extension_complex():
-    frame = RoboFrameImage(1, "/path/to/file/frame_user_notes_001")
+    frame = DummyRoboFrameFile("/path/to/file/frame_user_notes_001")
 
+    assert frame.frame_id == 1
     assert frame.filestem == "frame_user_notes_001"
     assert frame.filename == "frame_user_notes_001"
     assert frame.rootpath == pathlib.Path("/path/to/file")
@@ -247,9 +263,14 @@ def test_file_properties_prefix_usernotes_id_without_extension_complex():
 ### ROBOFRAME IMAGE CLASS TESTS ###
 ###################################
 
+def test_roboframe_image_constructor():
+    with pytest.raises(ValueError):
+        frame = RoboFrameImage("/path/to/file/frame_user_notes_001.ply")
+
+
 def test_roboframe_image_read():
-    filepath = SCRIPT_DIR / "data/starry_night.jpg"
-    frame = RoboFrameImage(1, filepath)
+    filepath = SCRIPT_DIR / "data/starry_night_01.jpg"
+    frame = RoboFrameImage(filepath)
 
     for image_format in [ImageFormat.OPENCV, ImageFormat.PIL]:
             img1 = frame.read(image_format=image_format)
@@ -262,8 +283,8 @@ def test_roboframe_image_read():
 
 
 def test_roboframe_image_read_grayscale():
-    filepath = SCRIPT_DIR / "data/starry_night.jpg"
-    frame = RoboFrameImage(1, filepath)
+    filepath = SCRIPT_DIR / "data/starry_night_01.jpg"
+    frame = RoboFrameImage(filepath)
 
     for image_format in [ImageFormat.OPENCV, ImageFormat.PIL]:
             img1 = frame.read(image_format=image_format, colour=False)
@@ -280,10 +301,14 @@ def test_roboframe_image_read_grayscale():
 ### ROBOFRAME IMAGE CLASS TESTS ###
 ###################################
 
-def test_roboframe_image_read():
-    filepath = SCRIPT_DIR / "data/fragment.ply"
+def test_roboframe_pointcloud_constructor():
+    with pytest.raises(ValueError):
+        frame = RoboFramePointCloud("/path/to/file/frame_user_notes_001.png")
 
-    frame = RoboFramePointCloud(1, filepath)
+def test_roboframe_pointcloud_read():
+    filepath = SCRIPT_DIR / "data/fragment_01.ply"
+
+    frame = RoboFramePointCloud(filepath)
     pcd1 = frame.read()
 
     pcd2 = o3d.io.read_point_cloud(str(filepath))

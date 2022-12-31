@@ -162,6 +162,20 @@ def read_pointcloud(filepath: pathlib.Path) -> o3d.geometry.PointCloud:
     pcd = o3d.io.read_point_cloud(str(filepath))
     return pcd
 
+
+def get_files(directory: pathlib.Path, pattern: str="*") -> list:
+    """Gets the list of files from a directory given a pattern
+    Args:
+        directory (pathlib.Path): the directory to get the list of mask files.
+        pattern (str): the pattern to search for. Defaults to \'*\'.
+    Returns:
+        list: sorted list of files (absolute file path).
+    """
+    files = np.array([])
+    if directory.exists():
+        files = np.array(sorted(directory.glob(pattern)))
+    return files 
+
 #########################
 ### PRIVATE FUNCTIONS ###
 #########################

@@ -98,57 +98,57 @@ def test_frametype_from_filepath():
 
 # Testing read_image using OpenCV format
 def test_read_image_opencv_colour():
-    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+    filepath = SCRIPT_DIR / "data" / "starry_night_01.jpg"
     img1 = read_image(filepath)
     img2 = cv2.imread(str(filepath), cv2.IMREAD_COLOR)
     assert (img1.shape == img2.shape and not(np.bitwise_xor(img1,img2).any())) == True
 
 def test_read_image_opencv_grayscale():
-    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+    filepath = SCRIPT_DIR / "data" / "starry_night_01.jpg"
     img1 = read_image(filepath, colour=False)
     img2 = cv2.imread(str(filepath), cv2.IMREAD_GRAYSCALE)
     assert (img1.shape == img2.shape and not(np.bitwise_xor(img1,img2).any())) == True
 
 def test_read_image_opencv_auto_colour():
-    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+    filepath = SCRIPT_DIR / "data" / "starry_night_01.jpg"
     img1 = read_image(filepath, colour=None)
     img2 = cv2.imread(str(filepath), cv2.IMREAD_COLOR)
     assert (img1.shape == img2.shape and not(np.bitwise_xor(img1,img2).any())) == True
 
 def test_read_image_opencv_auto_grayscale():
-    filepath = SCRIPT_DIR / "data/starry_night_gray.jpg"
+    filepath = SCRIPT_DIR / "data" / "starry_night_gray_01.jpg"
     img1 = read_image(filepath, colour=None)
     img2 = cv2.imread(str(filepath), cv2.IMREAD_GRAYSCALE)
     assert (img1.shape == img2.shape and not(np.bitwise_xor(img1,img2).any())) == True
 
 # Testing read_image using PIL format
 def test_read_image_pil_colour():
-    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+    filepath = SCRIPT_DIR / "data" / "starry_night_01.jpg"
     img1 = read_image(filepath, ImageFormat.PIL)
     img2 = Image.open(str(filepath))
     assert (ImageChops.difference(img1, img2)).getbbox() == None
 
 def test_read_image_pil_grayscale():
-    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+    filepath = SCRIPT_DIR / "data" / "starry_night_01.jpg"
     img1 = read_image(filepath, ImageFormat.PIL, colour=False)
     img2 = Image.open(str(filepath)).convert("L")
     assert (ImageChops.difference(img1, img2)).getbbox() == None
 
 def test_read_image_pil_auto_colour():
-    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+    filepath = SCRIPT_DIR / "data" / "starry_night_01.jpg"
     img1 = read_image(filepath, ImageFormat.PIL, colour=None)
     img2 = Image.open(str(filepath))
     assert (ImageChops.difference(img1, img2)).getbbox() == None
 
 def test_read_image_pil_auto_grayscale():
-    filepath = SCRIPT_DIR / "data/starry_night_gray.jpg"
+    filepath = SCRIPT_DIR / "data" / "starry_night_gray_01.jpg"
     img1 = read_image(filepath, ImageFormat.PIL, colour=None)
     img2 = Image.open(str(filepath))
     assert (ImageChops.difference(img1, img2)).getbbox() == None
 
 # Test read_image
 def test_read_image():
-    filepath = SCRIPT_DIR / "data/starry_night.jpg"
+    filepath = SCRIPT_DIR / "data" / "starry_night_01.jpg"
 
     img = read_image(filepath, image_format=ImageFormat.OPENCV)
     assert type(img) == np.ndarray
@@ -161,7 +161,7 @@ def test_read_image():
 
 # Testing read_pointcloud
 def test_read_pointcloud():
-    filepath = SCRIPT_DIR / "data/fragment.ply"
+    filepath = SCRIPT_DIR / "data" / "fragment_01.ply"
     pcd1 = read_pointcloud(filepath)
     pcd2 = o3d.io.read_point_cloud(str(filepath))
 
@@ -171,6 +171,26 @@ def test_read_pointcloud():
     pcd2_col = np.asarray(pcd2.colors)
     assert np.sum(pcd1_pts - pcd2_pts) == 0
     assert np.sum(pcd1_col - pcd2_col) == 0
+
+
+# Testing for get_files()
+def test_get_files():
+    datadir = SCRIPT_DIR / "data"
+
+    files = get_files(datadir)
+    assert len(files) == 3
+
+    files = get_files(datadir, "*_gray_*")
+    assert len(files) == 1
+
+    files = get_files(datadir, "*01")
+    assert len(files) == 0
+
+    files = get_files(datadir, "*01*")
+    assert len(files) == 3
+
+    files = get_files(datadir, "starry*")
+    assert len(files) == 2
     
 
 
