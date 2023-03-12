@@ -121,7 +121,7 @@
 <span class="c1">########################</span>
 
 <div class="viewcode-block" id="supported_image_types"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.supported_image_types">[docs]</a><span class="k">def</span> <span class="nf">supported_image_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get the list of supported image extensions. The period is not included.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the list of supported image extensions. The period is not included.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List: The list of supported image types.</span>
@@ -130,7 +130,7 @@
 
 
 <div class="viewcode-block" id="supported_pointcloud_types"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.supported_pointcloud_types">[docs]</a><span class="k">def</span> <span class="nf">supported_pointcloud_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get the list of supported point cloud extensions. The period is not included.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the list of supported point cloud extensions. The period is not included.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List: The list of supported point cloud types.</span>
@@ -139,7 +139,7 @@
 
 
 <div class="viewcode-block" id="supported_csv_types"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.supported_csv_types">[docs]</a><span class="k">def</span> <span class="nf">supported_csv_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get the list of supported CSV file extensions. The period is not included.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the list of supported CSV file extensions. The period is not included.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List: The list of supported CSV file types.</span>
@@ -148,7 +148,7 @@
 
 
 <div class="viewcode-block" id="extension_from_filepath"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.extension_from_filepath">[docs]</a><span class="k">def</span> <span class="nf">extension_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Gets the extension for a file given its filepath. The filepath can be relative or absolute.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets the extension for a file given its filepath. The filepath can be relative or absolute.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filepath (pathlib.Path): The relative or absolute path to the file.</span>
@@ -163,7 +163,7 @@
 
 
 <div class="viewcode-block" id="frametype_from_extension"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.frametype_from_extension">[docs]</a><span class="k">def</span> <span class="nf">frametype_from_extension</span><span class="p">(</span><span class="n">extension</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameType</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Returns the FrameType given the file extension.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the FrameType given the file extension.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        extension (str): The file extension without the period.</span>
@@ -183,7 +183,7 @@
 
 
 <div class="viewcode-block" id="frametype_from_filepath"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.frametype_from_filepath">[docs]</a><span class="k">def</span> <span class="nf">frametype_from_filepath</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameType</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Returns the FrameType given the filepath.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the FrameType given the filepath.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filepath (pathlib.Path): The relative or absolute path to the file.</span>
@@ -196,7 +196,7 @@
 
 
 <div class="viewcode-block" id="read_image"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.read_image">[docs]</a><span class="k">def</span> <span class="nf">read_image</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">image_format</span><span class="p">:</span> <span class="n">ImageFormat</span> <span class="o">=</span> <span class="n">ImageFormat</span><span class="o">.</span><span class="n">OPENCV</span><span class="p">,</span> <span class="n">colour</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Reads an image either as an OpenCV image (Numpy array, default behaviour) or as a PIL Image.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads an image either as an OpenCV image (Numpy array, default behaviour) or as a PIL Image.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filepath (pathlib.Path): The file path to the image to be read.</span>
@@ -222,7 +222,7 @@
 
 
 <div class="viewcode-block" id="read_pointcloud"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.read_pointcloud">[docs]</a><span class="k">def</span> <span class="nf">read_pointcloud</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">PointCloud</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Reads a point cloud and returns an Open3d Geometry PointCloud object.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads a point cloud and returns an Open3d Geometry PointCloud object.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filepath (pathlib.Path): The file path to the point cloud to be read.</span>
@@ -236,7 +236,7 @@
 
 
 <div class="viewcode-block" id="get_files"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.get_files">[docs]</a><span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Gets the list of files from a directory given a pattern</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets the list of files from a directory given a pattern</span>
 <span class="sd">    Args:</span>
 <span class="sd">        directory (pathlib.Path): the directory to get the list of mask files.</span>
 <span class="sd">        pattern (str): the pattern to search for. Defaults to \&#39;*\&#39;.</span>
@@ -254,7 +254,7 @@
 
 
 <div class="viewcode-block" id="read_image_opencv"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.read_image_opencv">[docs]</a><span class="k">def</span> <span class="nf">read_image_opencv</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">colour</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Reads an image as an OpenCV image (Numpy array).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads an image as an OpenCV image (Numpy array).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filepath (pathlib.Path): The file path to the image to be read.</span>
@@ -281,7 +281,7 @@
 
 
 <div class="viewcode-block" id="read_image_pil"><a class="viewcode-back" href="../../file_utils.html#robotools.file_utils.read_image_pil">[docs]</a><span class="k">def</span> <span class="nf">read_image_pil</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span> <span class="n">colour</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Reads an image into a PIL.Image.Image object.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads an image into a PIL.Image.Image object.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        filepath (pathlib.Path): The file path to the image to be read.</span>

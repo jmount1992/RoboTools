@@ -123,7 +123,7 @@
 
 <span class="c1">### ROBO FRAME ###</span>
 <div class="viewcode-block" id="RoboFrame"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame">[docs]</a><span class="k">class</span> <span class="nc">RoboFrame</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;The RoboFrame class.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The RoboFrame class.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        frame_id (int): the frame ID number.</span>
@@ -132,7 +132,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pose</span><span class="p">:</span> <span class="n">sm</span><span class="o">.</span><span class="n">SE3</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The constructor for the RoboFrameBase class.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The constructor for the RoboFrameBase class.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            frame_id (int): the frame ID number.</span>
@@ -145,7 +145,7 @@
 
 
 <div class="viewcode-block" id="RoboFrame.add_data"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame.add_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Adds a field (object attribute) to the object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a field (object attribute) to the object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            field (str): the name of the field(s)/attribute(s) to be added. The field(s) will be converted to be all lowercase.</span>
@@ -174,7 +174,7 @@
 
 
 <div class="viewcode-block" id="RoboFrame.has_field"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame.has_field">[docs]</a>    <span class="k">def</span> <span class="nf">has_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Checks to see if a field exists.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks to see if a field exists.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            field (str): the name of the field. The field will be converted to be all lowercase.</span>
@@ -186,7 +186,7 @@
 
 
 <div class="viewcode-block" id="RoboFrame.get_pose_data"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame.get_pose_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_pose_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Gets the pose data associated with the frame as a dictionary. The keys in the dictionary will be</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the pose data associated with the frame as a dictionary. The keys in the dictionary will be</span>
 <span class="sd">        [pos_x, pos_y, pos_z, quat_w, quat_x, quat_y, quat_z].</span>
 
 <span class="sd">        Returns:</span>
@@ -212,7 +212,7 @@
 
 
 <div class="viewcode-block" id="RoboFrame.set_pose"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrame.set_pose">[docs]</a>    <span class="k">def</span> <span class="nf">set_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Sets the pose data using a set of keyword arguments. The translational and rotational parts</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the pose data using a set of keyword arguments. The translational and rotational parts</span>
 <span class="sd">        are independent. If the translational or rotational part is not provided the corresponding</span>
 <span class="sd">        elements will be set to the default (0, 0, 0 for translational, and 0 degrees for rotational).</span>
 
@@ -255,14 +255,14 @@
 
 <span class="c1">### ROBO FRAME FILE ###</span>
 <div class="viewcode-block" id="RoboFrameFile"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameFile">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameFile</span><span class="p">(</span><span class="n">RoboFrame</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An abstract base class to be used when frame data is stored as individual files (e.g., images and point clouds).</span>
 <span class="sd">    This abstract base class provides properties for common file I/O tasks (e.g., getting the file extension or filename)</span>
 
 <span class="sd">    The class is derived from the :class:`.RoboFrameBase` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The class constructor.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The class constructor.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            frame_id (int): the frame ID number.</span>
@@ -289,7 +289,7 @@
     <span class="c1"># Filename properties</span>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">filestem</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The name of the file without the path or extension (e.g., &#39;/&lt;path-to-file&gt;/&lt;filestem&gt;.&lt;extension&gt;&#39;).</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The name of the file without the path or extension (e.g., &#39;/&lt;path-to-file&gt;/&lt;filestem&gt;.&lt;extension&gt;&#39;).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: the filestem for the frame</span>
@@ -298,7 +298,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;the name of the file, this includes the file extension. (e.g., &#39;/&lt;path-to-file&gt;/&lt;filestem&gt;.&lt;extension&gt;&#39;).</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;the name of the file, this includes the file extension. (e.g., &#39;/&lt;path-to-file&gt;/&lt;filestem&gt;.&lt;extension&gt;&#39;).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: the filename for the frame</span>
@@ -307,7 +307,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rootpath</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The absolute path to the parent folder for the frame.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The absolute path to the parent folder for the frame.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: the absolute path to the parent folder for the frame.</span>
@@ -316,7 +316,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">extension</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The extension for the frame without the period</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The extension for the frame without the period</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The extension for the frame without the period. Will return None if the file has no extension.</span>
@@ -325,7 +325,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The prefix for the frame.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The prefix for the frame.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The prefix for the frame. Will return None if the file has no prefix.</span>
@@ -336,7 +336,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">user_notes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The user notes contained within the filename.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The user notes contained within the filename.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The user notes contained within the filename. Will return None if no user notes exists.</span>
@@ -347,21 +347,21 @@
 
 <div class="viewcode-block" id="RoboFrameFile.read"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameFile.read">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c1"># pragma: no cover</span>
-        <span class="sd">&quot;&quot;&quot;To be implemented in each dervied class.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;To be implemented in each dervied class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
 
 
 <span class="c1">### ROBO FRAME IMAGE ###</span>
 <div class="viewcode-block" id="RoboFrameImage"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameImage">[docs]</a><span class="k">class</span> <span class="nc">RoboFrameImage</span><span class="p">(</span><span class="n">RoboFrameFile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The RoboTools class for images. Each image within a set should be its own RoboFrameImage</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The RoboTools class for images. Each image within a set should be its own RoboFrameImage</span>
 <span class="sd">    object.</span>
 
 <span class="sd">    The class is derived from the :class:`.RoboFrameFile` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The class constructor.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The class constructor.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filepath (pathlib.Path): the absolute path to the image file.</span>
@@ -376,7 +376,7 @@
 
     
 <div class="viewcode-block" id="RoboFrameImage.read"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFrameImage.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Image</span><span class="o">.</span><span class="n">Image</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Reads an image file and returns the data. The image can be either read in as</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads an image file and returns the data. The image can be either read in as</span>
 <span class="sd">        an OpenCV image (numpy array) or as a PIL image. The image can be forced to be read</span>
 <span class="sd">        in as colour, grayscale, or automatically determined.</span>
 
@@ -397,14 +397,14 @@
 
 <span class="c1">### ROBO FRAME POINT CLOUD ###</span>
 <div class="viewcode-block" id="RoboFramePointCloud"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFramePointCloud">[docs]</a><span class="k">class</span> <span class="nc">RoboFramePointCloud</span><span class="p">(</span><span class="n">RoboFrameFile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;The RoboTools class for point clouds. Each point cloud within a set should be its own</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The RoboTools class for point clouds. Each point cloud within a set should be its own</span>
 <span class="sd">    RoboFramePointCloud object.</span>
 
 <span class="sd">    The class is derived from the :class:`.RoboFrameFile` class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;The class constructor.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The class constructor.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filepath (pathlib.Path): the absolute path to the point cloud file.</span>
@@ -419,7 +419,7 @@
 
     
 <div class="viewcode-block" id="RoboFramePointCloud.read"><a class="viewcode-back" href="../../roboframes.html#robotools.roboframes.RoboFramePointCloud.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">PointCloud</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Reads a point cloud file and returns the data as an Open3D point cloud object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads a point cloud file and returns the data as an Open3D point cloud object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            **kwargs: None</span>
